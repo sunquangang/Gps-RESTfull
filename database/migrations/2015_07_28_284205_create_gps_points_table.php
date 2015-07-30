@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateQuestionsTable extends Migration
+class CreateGpsPointsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,11 +12,14 @@ class CreateQuestionsTable extends Migration
      */
     public function up()
     {
-        Schema::create('questions', function (Blueprint $table) {
+        Schema::dropIfExists('points');
+        Schema::create('points', function (Blueprint $table) {
             $table->increments('id');
-            $table->text('desciption');
+            $table->double('latitude', 15, 8);
+            $table->double('longitude', 15, 8);
             $table->integer('created_by')->unsigned();
-            $table->foreign('created_by')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('created_by')->references('id')->on('users');
+            
             $table->timestamps();
             $table->softDeletes();
         });

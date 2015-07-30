@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateGpsPointsTable extends Migration
+class CreateImagesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,12 +12,13 @@ class CreateGpsPointsTable extends Migration
      */
     public function up()
     {
-        Schema::create('gps_points', function (Blueprint $table) {
+        Schema::dropIfExists('images');
+
+        Schema::create('images', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('latitude');
-            $table->integer('longitude');
-            $table->integer('created_by')->unsigned();
-            $table->foreign('created_by')->references('id')->on('users')->onDelete('cascade');
+            $table->string('path');
+            $table->integer('point_id')->unsigned();
+            $table->foreign('point_id')->references('id')->on('points')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
             $table->softDeletes();
         });
