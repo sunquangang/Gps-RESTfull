@@ -145,7 +145,7 @@ return [
         /*
         *   Self added libaries
         */
-        EllipseSynergie\ApiResponse\Laravel\ResponseServiceProvider::class,
+        //Sorskod\Larasponse\LarasponseServiceProvider::class,
 
     ],
 

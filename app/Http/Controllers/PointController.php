@@ -1,13 +1,14 @@
 <?php namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Http\Requests;
+use Illuminate\Validation\Validator;
 use Illuminate\Http\Response;
+use App\Http\Requests\CreatePointRequest;
 use App\Http\Controllers\Controller;
 use App\Point;
+use Input;
 class PointController extends Controller
 {
-
     /**
      * Display a listing of the resource.
      *
@@ -17,47 +18,61 @@ class PointController extends Controller
     {
         try
         {
-            $points = Point::with('user')->get();
+            $points = Point::with('user')->with('image')->with('category')->get();
             if ($points) {
+                //return $points;
                 return \Response::json([
                     'data' => $this->transformCollection($points)
                 ], 200);
             } else {
-                return \Response::json([
-                    'error' => 'Collection not found', 
-                    'status' => 404
-                ], 404);
+                return $this->_fail_404();
             }
         } 
         catch (Exception $e) 
         {
-            return \Response::json([
-                'error' => 'Something did not work as expected.',
-                'status' => '501',
-            ], 501);
+            return $this->_fail_505();
         }
     }
 
     
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return Response
-     */
-    public function create()
-    {
-        //
-    }
-
     /**
      * Store a newly created resource in storage.
      *
      * @param  Request  $request
      * @return Response
      */
-    public function store(Request $request)
+    public function store(CreatePointRequest $request)
     {
-        //
+        try {
+
+            // Bind input to data array
+            $data = [
+                'longitude' => Input::get('longitude'),
+                'latitude' => Input::get('latitude'),
+                'created_by' => \Auth::user()->id,
+                'image'     => Input::get('image'),
+                'category_id'     => Input::get('category'),
+            ];
+
+            // Validate
+
+            return $this->validate($request, [
+                'longitude' => 'required',
+                'latitude' => 'required',
+                'created_by' => 'category_id',
+            ]);
+
+
+
+            // Add to DB
+
+            // Success or Error
+
+
+        } catch (Exception $e) {
+            return $this->_fail_505();
+        }
+        
     }
 
     /**
@@ -70,84 +85,68 @@ class PointController extends Controller
     {
         try
         {
-            $points = Point::where('id', $id)->with('user')->with('image')->first();
-            if ($points) {
+            $point = Point::where('id', $id)->with('user')->with('image')->with('category')->first();
+            $point = $point;
+            if ($point) {
                 return \Response::json([
-                    'data' => $this->transformItem($points->toArray())
+                    'data' => $this->transformItem($point->toArray())
                 ], 200);
+                //return $this->fractal->item($point, new PointTransformer()); 
             } else {
-                return \Response::json([
-                    'error' => 'Collection not found', 
-                    'status' => 404
-                ], 404);
+                return $this->_fail_505();
             }
         } 
         catch (Exception $e) 
         {
-            return \Response::json([
-                'error' => 'Something did not work as expected.',
-                'status' => '501',
-            ], 501);
+            return $this->_fail_505();
         }
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return Response
-     */
-    public function edit($id)
+
+    private function transformCollection($points)
     {
-        //
+        $points = $points->toArray();
+        //$points['count'] = count($points);
+        return array_map([$this, 'transformItem'], $points);
     }
 
     /**
-     * Update the specified resource in storage.
-     *
-     * @param  Request  $request
-     * @param  int  $id
+     * Display a listing of the resource.
+     * @method private
      * @return Response
      */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
-
-
-    private function transformCollection(array $points)
-    {
-        return array_map([$this, 'transformItem'], $points->toArray());
-    }
-
-    private function transformItem($point){
+    private function transformItem(array $point){
+//return $point['category'];
         return [
             'id' => (int) $point['id'],
             'coordinates' => [
                 'longitude' => $point['longitude'],
                 'latitude' => $point['latitude']
             ],
-            'images' => [ 
-                'path' => $point['image']
-            ],
-            'created_at' => Date($point['created_at']),
+            'category' => $point['category'],
+            'image' => $point['image'],
             'created_by' => $point['user'],
-            'links'   => [
-                'rel' => 'self',
-                'uri' => '/api/point/'.$point['id'],
+            'meta' => [
+                'created_at' => Date($point['created_at']),
+                'last_update' => Date($point['updated_at']),
+                'links'   => [
+                    'rel' => 'self',
+                    'uri' => '/api/points/'.$point['id'],
+                ],
             ]
         ];
+    }
+    private function _fail_404(){
+        return \Response::json([
+                    'error' => 'Collection not found', 
+                    'status' => 404
+            ], 404);
+    }
+    private function _fail_505() {
+        return \Response::json([
+                'error' => 'Something did not work as expected.',
+                'status' => '501',
+            ], 501);
     }
 
 

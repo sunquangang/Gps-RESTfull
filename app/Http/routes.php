@@ -22,11 +22,14 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::group(['prefix' => 'api'], function(){
-    Route::get('/', function() {  return Auth::user(); });
-    Route::resource('points', 'PointController');
-    
-});
+	Route::group(['middleware' => 'auth'], function(){
+		Route::group(['prefix' => 'api'], function(){
+	    Route::get('/', function() {  return Auth::user(); });
+	    Route::resource('points', 'PointController');
+	    Route::resource('categories', 'CategoryController',
+	                array('only' => array('index', 'store', 'show')));
+		});
+	});
 
 Route::controllers([
     'auth' => 'Auth\AuthController',

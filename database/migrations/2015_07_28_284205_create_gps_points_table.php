@@ -17,9 +17,10 @@ class CreateGpsPointsTable extends Migration
             $table->increments('id');
             $table->double('latitude', 15, 8);
             $table->double('longitude', 15, 8);
+            $table->integer('category_id')->unsigned();
+            $table->foreign('category_id')->references('id')->on('categories');
             $table->integer('created_by')->unsigned();
             $table->foreign('created_by')->references('id')->on('users');
-            
             $table->timestamps();
             $table->softDeletes();
         });
@@ -33,5 +34,6 @@ class CreateGpsPointsTable extends Migration
     public function down()
     {
         //
+        Schema::drop('points');
     }
 }

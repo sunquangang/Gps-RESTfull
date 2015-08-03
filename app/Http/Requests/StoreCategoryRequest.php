@@ -1,8 +1,10 @@
-<?php namespace App\Http\Requests;
+<?php
 
-use App\Http\Requests\Request;
+namespace App\Http\Requests;
+use Illuminate\Foundation\Http\FormRequest;
+use Response;
 
-class StorePointRequest extends Request
+class StoreCategoryRequest extends Request
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -11,7 +13,7 @@ class StorePointRequest extends Request
      */
     public function authorize()
     {
-        return true;
+        return false;
     }
 
     /**
@@ -22,9 +24,9 @@ class StorePointRequest extends Request
     public function rules()
     {
         return [
-            'latitude' => 'required',
-            'longitude' => 'required',
-            'created_by' => 'required',
+            'name'  => 'required|min:6',
         ];
     }
+
+
 }

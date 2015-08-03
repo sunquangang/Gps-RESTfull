@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateImagesTable extends Migration
+class CreateCategoryTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,15 +12,13 @@ class CreateImagesTable extends Migration
      */
     public function up()
     {
-        Schema::dropIfExists('images');
-
-        Schema::create('images', function (Blueprint $table) {
+        //
+        Schema::dropIfExists('categories');
+        Schema::create('categories', function(Blueprint $table){
             $table->increments('id');
-            $table->string('path');
-            $table->integer('point_id')->unsigned();
-            $table->foreign('point_id')->references('id')->on('points')->onDelete('cascade');
-            $table->timestamps();
+            $table->string('name');
             $table->softDeletes();
+            $table->timestamps();
         });
     }
 
@@ -31,6 +29,7 @@ class CreateImagesTable extends Migration
      */
     public function down()
     {
-        Schema::drop('images');
+        //
+        Schema::drop('categories');
     }
 }
