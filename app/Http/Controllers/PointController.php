@@ -1,14 +1,34 @@
 <?php namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Requests;
 use Illuminate\Validation\Validator;
 use Illuminate\Http\Response;
 use App\Http\Requests\CreatePointRequest;
 use App\Http\Controllers\Controller;
 use App\Point;
-use Input;
-class PointController extends Controller
+use Arelstone\Transformers\PointTransformer;
+
+
+class PointController extends ApiController
 {
+    /**
+     * @var Arelstone/Transformer/PointTransformer
+     */
+    protected $transformer;
+
+    /**
+     * PointController constructor.
+     * @param Arelstone $pointTransformer
+     */
+    public function __construct(PointTransformer $pointTransformer)
+    {
+
+        $this->transformer = $pointTransformer;
+
+
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -18,11 +38,11 @@ class PointController extends Controller
     {
         try
         {
-            $points = Point::with('user')->with('image')->with('category')->get();
+            $points = Point::with('user')->with('category')->get();
             if ($points) {
                 //return $points;
                 return \Response::json([
-                    'data' => $this->transformCollection($points)
+                    'data' => $this->transform()->transformCollection($points)
                 ], 200);
             } else {
                 return $this->_fail_404();
@@ -33,6 +53,34 @@ class PointController extends Controller
             return $this->_fail_505();
         }
     }
+
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return Response
+     */
+    public function show($id)
+    {
+
+        try {
+            $point = Point::where('id', $id)->with('user')->with('category')->first();
+
+            if (!$point) {
+                return $this->respondNotFound();
+            }
+            return $this->respond([
+                'data' => $this->transformer->transform($point)
+            ]);
+
+        } catch (Exception $e) {
+            return $this->respondInternalError();
+        }
+
+
+    }
+
 
     
     /**
@@ -75,79 +123,13 @@ class PointController extends Controller
         
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return Response
-     */
-    public function show($id)
-    {
-        try
-        {
-            $point = Point::where('id', $id)->with('user')->with('image')->with('category')->first();
-            $point = $point;
-            if ($point) {
-                return \Response::json([
-                    'data' => $this->transformItem($point->toArray())
-                ], 200);
-                //return $this->fractal->item($point, new PointTransformer()); 
-            } else {
-                return $this->_fail_505();
-            }
-        } 
-        catch (Exception $e) 
-        {
-            return $this->_fail_505();
-        }
-    }
 
 
-    private function transformCollection($points)
-    {
-        $points = $points->toArray();
-        //$points['count'] = count($points);
-        return array_map([$this, 'transformItem'], $points);
-    }
 
-    /**
-     * Display a listing of the resource.
-     * @method private
-     * @return Response
-     */
-    private function transformItem(array $point){
-//return $point['category'];
-        return [
-            'id' => (int) $point['id'],
-            'coordinates' => [
-                'longitude' => $point['longitude'],
-                'latitude' => $point['latitude']
-            ],
-            'category' => $point['category'],
-            'image' => $point['image'],
-            'created_by' => $point['user'],
-            'meta' => [
-                'created_at' => Date($point['created_at']),
-                'last_update' => Date($point['updated_at']),
-                'links'   => [
-                    'rel' => 'self',
-                    'uri' => '/api/points/'.$point['id'],
-                ],
-            ]
-        ];
-    }
-    private function _fail_404(){
-        return \Response::json([
-                    'error' => 'Collection not found', 
-                    'status' => 404
-            ], 404);
-    }
-    private function _fail_505() {
-        return \Response::json([
-                'error' => 'Something did not work as expected.',
-                'status' => '501',
-            ], 501);
-    }
+    
+
+    
+    
 
 
 }

@@ -25,7 +25,8 @@ Route::get('/', function () {
 	Route::group(['middleware' => 'auth'], function(){
 		Route::group(['prefix' => 'api'], function(){
 	    Route::get('/', function() {  return Auth::user(); });
-	    Route::resource('points', 'PointController');
+	    Route::resource('points', 'PointController',
+	    	array('except' => array('create', 'destroy', 'edit')));
 	    Route::resource('categories', 'CategoryController',
 	                array('only' => array('index', 'store', 'show')));
 		});

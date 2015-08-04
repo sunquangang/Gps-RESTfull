@@ -9,7 +9,8 @@
         "laravel/framework": "5.1.*",
         "way/generators": "^3.0",
         "sorskod/larasponse": "~1.0",
-        "pagerfanta/pagerfanta": "^1.0"
+        "pagerfanta/pagerfanta": "^1.0",
+        "cyvelnet/laravel5-fractal": "^1.2"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
@@ -27,7 +28,8 @@
     },
     "autoload-dev": {
         "classmap": [
-            "tests/TestCase.php"
+            "tests/TestCase.php",
+            "app/Arelstone"
         ]
     },
     "scripts": {

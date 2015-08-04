@@ -5,18 +5,20 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 //use Illuminate\Database\Eloquent\SoftDeletingTrait;
 
-class Point extends Model
+class point extends model
 {
-	//use SoftDeletingTrait;
+
+	//use softdeletingtrait;
     protected $table = 'points';
 	protected $fillable = ['latitude', 'longitude', 'created_by', 'created_at'];
+    protected $hidden = ['deleted_at'];
     public function user()
     {
-    	return $this->belongsTo('App\User', 'created_by'); 
+    	return $this->belongsTo('app\User', 'created_by');
     }
     public function image()
     {
-        return $this->hasMany('App\Image');
+        return $this->hasMany('app\Image');
     }
 
     public function category()
