@@ -1,5 +1,6 @@
 <?php namespace App\Http\Controllers;
 
+use Fractal;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use Illuminate\Validation\Validator;
@@ -7,7 +8,6 @@ use Illuminate\Http\Response;
 use App\Http\Requests\CreatePointRequest;
 use App\Http\Controllers\Controller;
 use App\Point;
-use Arelstone\Transformers\PointTransformer;
 
 
 class PointController extends ApiController
@@ -17,17 +17,6 @@ class PointController extends ApiController
      */
     protected $transformer;
 
-    /**
-     * PointController constructor.
-     * @param Arelstone $pointTransformer
-     */
-    public function __construct(PointTransformer $pointTransformer)
-    {
-
-        $this->transformer = $pointTransformer;
-
-
-    }
 
     /**
      * Display a listing of the resource.
@@ -39,14 +28,12 @@ class PointController extends ApiController
         try
         {
             $points = Point::with('user')->with('category')->get();
-            if ($points) {
-                //return $points;
-                return \Response::json([
-                    'data' => $this->transform()->transformCollection($points)
-                ], 200);
-            } else {
-                return $this->_fail_404();
+            if (!$points) {
+                return $this->respondNotFound();
             }
+
+            return Fractal::collection($points, new \App\Transformers\PointTransformer)->responseJson(200);
+
         } 
         catch (Exception $e) 
         {
@@ -70,9 +57,7 @@ class PointController extends ApiController
             if (!$point) {
                 return $this->respondNotFound();
             }
-            return $this->respond([
-                'data' => $this->transformer->transform($point)
-            ]);
+            return Fractal::item($point, new \App\Transformers\PointTransformer)->responseJson(200);
 
         } catch (Exception $e) {
             return $this->respondInternalError();

@@ -16,7 +16,7 @@ class Image extends Model
     */
     public function point()
     {
-    	return $this->belongsTo('App\Point'); 
+    	return $this->belongsTo('App\Point', 'point_id');
     }
     
     
