@@ -1,10 +1,19 @@
 <?php namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
-use App\Category;
-use App\Http\Requests\StoreCategoryRequest;
-use Cron\Tests\AbstractFieldTest;
 
+use Illuminate\Http\Request;
+
+use App\Http\Requests\StoreCategoryRequest;
+use Fractal;
+use App\Category;
+use App\Transformers;
+use Illuminate\Validation\Validator;
+
+
+/**
+ * Class CategoryController
+ * @package App\Http\Controllers
+ */
 class CategoryController extends Controller
 {
     /**
@@ -15,57 +24,29 @@ class CategoryController extends Controller
     {
         try
         {
-            $categories = Category::with('point')->get();
-            if ($categories) {
-                return \Response::json([
-                    'data' => $this->_transformCollection($categories->toArray())
-                ], 200);
-            } else {
-                return $this->_fail_404();
+            $categories = Category::all();
+            if (!$categories) {
+                return $this->respondNotFound();
             }
+            return Fractal::collection($categories, new \App\Transformers\CategoryTransformer)->responseJson(200);
         }
         catch (Exception $e)
         {
-            return $this->_fail_501();
+            return $this->respondWithError();
         }
     }
 
-    /**
-     *   Transform a collection of gps-points
-     * @param array $points
-     * @return array [arr] An array of the transformed points
-     */
-    private function _transformCollection(array $points)
-    {
-        return array_map([$this, '_transformItem'], $points);
+
+    public  function store(StoreCategoryRequest $request){
+
+        $category = new Category;
+        $category->name = \Input::get('name');
+
+        return $category;
     }
 
     /**
-    * 404 fail!
-    * @return json Response with JSON status 404
-    */
-    private function _fail_404()
-    {
-        return \Response::json([
-                    'error' => 'Collection not found',
-                    'status' => 404
-            ], 404);
-    }
-
-    /**
-    * 501 fail!
-    * @return json Response with JSON status 501
-    */
-    private function _fail_501()
-    {
-        return \Response::json([
-                'error' => 'Something did not work as expected.',
-                'status' => '501',
-            ], 501);
-    }
-
-    /**
-     *  Display a single gps-point with category
+     *  Display a single category
      *  @var int Id or the Point
      *  @return json Response with JSON data
      *  @
@@ -76,34 +57,20 @@ class CategoryController extends Controller
     {
         try
         {
-            $categories = Category::where('id', $id)->with('point')->first();
-            if ($categories) {
-                return \Response::json([
-                    'data' => $this->_transformItem($categories->toArray())
-                ], 200);
+            $category = Category::where('id', $id)
+                ->first();
+            if ($category) {
+                return Fractal::item($category, new \App\Transformers\CategoryTransformer)->responseJson(200);
             } else {
-                return $this->_fail_404();
+                return $this->respondNotFound();
             }
         }
         catch (Exception $e)
         {
-            return $this->_fail_501();
+            return $this->respondWithError();
         }
     }
 
-    /**
-     * Transform a single listing of the resource.
-     * @param array An array with one item
-     * @return array Transformed Category Response
-     */
-    private function _transformItem($item)
-    {
-        return [
-            'id' => (int) $item['id'],
-            'category' => $item['name'],
-            'point' => $item['point']
-        ];
-    }
 
 
 

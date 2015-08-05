@@ -12,11 +12,6 @@ use App\Point;
 
 class PointController extends ApiController
 {
-    /**
-     * @var Arelstone/Transformer/PointTransformer
-     */
-    protected $transformer;
-
 
     /**
      * Display a listing of the resource.
@@ -74,8 +69,10 @@ class PointController extends ApiController
      * @param  Request  $request
      * @return Response
      */
-    public function store(CreatePointRequest $request)
+    public function store()
     {
+
+
         try {
 
             // Bind input to data array
@@ -89,11 +86,7 @@ class PointController extends ApiController
 
             // Validate
 
-            return $this->validate($request, [
-                'longitude' => 'required',
-                'latitude' => 'required',
-                'created_by' => 'category_id',
-            ]);
+            return $data;
 
 
 
