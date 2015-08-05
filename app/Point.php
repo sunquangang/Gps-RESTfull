@@ -14,11 +14,11 @@ class point extends model
     protected $hidden = ['deleted_at'];
     public function user()
     {
-    	return $this->belongsTo('app\User', 'created_by');
+    	return $this->belongsTo('App\User', 'created_by');
     }
     public function image()
     {
-        return $this->hasMany('app\Image');
+        return $this->hasMany('App\Image');
     }
 
     public function category()

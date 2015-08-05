@@ -47,11 +47,13 @@ class PointController extends ApiController
     {
 
         try {
-            $point = Point::where('id', $id)->with('user')->with('category')->first();
+            $point = Point::where('id', $id)->with('user')->with('category')->with('image')->first();
 
             if (!$point) {
                 return $this->respondNotFound();
             }
+
+
             return Fractal::item($point, new \App\Transformers\PointTransformer)->responseJson(200);
 
         } catch (Exception $e) {

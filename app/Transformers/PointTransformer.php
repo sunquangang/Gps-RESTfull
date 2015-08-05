@@ -35,16 +35,18 @@ class PointTransformer extends TransformerAbstract
      */
     public function transform($resource)
     {
-
         return [
             'id' => $resource->id,
             'coordinats' => [
                 'longitude'=>$resource->longitude,
                 'latitude'=>$resource->latitude,
             ],
-            //'image' => $resource->image,
-            'created_by' => $resource->user,
+            'image' => [
 
+
+               'id' => $resource->image
+            ],
+            'created_by' => $resource->user,
             'category' => [
                 'id' => $resource->category->id,
                 'name' => $resource->category->name,
@@ -67,5 +69,7 @@ class PointTransformer extends TransformerAbstract
             ]
         ];
     }
+
+
 
 }

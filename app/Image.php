@@ -10,7 +10,7 @@ class Image extends Model
 	//use SoftDeletingTrait;
     protected $table = 'images';
 	protected $fillable = ['path'];
-    protected $hidden =['id', 'point_id', 'created_at', 'updated_at', 'deleted_at']; 
+    protected $hidden =[];
     /*
     *	A image has one Point
     */
