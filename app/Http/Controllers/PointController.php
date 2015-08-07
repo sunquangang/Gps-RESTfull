@@ -71,7 +71,7 @@ class PointController extends ApiController
      * @param  Request  $request
      * @return Response
      */
-    public function store()
+    public function store(Requests\CreatePointRequest $request)
     {
 
 
@@ -79,11 +79,11 @@ class PointController extends ApiController
 
             // Bind input to data array
             $data = [
-                'longitude' => Input::get('longitude'),
-                'latitude' => Input::get('latitude'),
+                'longitude' => \Input::get('longitude'),
+                'latitude' => \Input::get('latitude'),
                 'created_by' => \Auth::user()->id,
-                'image'     => Input::get('image'),
-                'category_id'     => Input::get('category'),
+                'image'     => \Input::get('image'),
+                'category_id'     => \Input::get('category'),
             ];
 
             // Validate

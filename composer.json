@@ -7,7 +7,9 @@
     "require": {
         "php": ">=5.5.9",
         "laravel/framework": "5.1.*",
-        "cyvelnet/laravel5-fractal": "^1.2"
+        "cyvelnet/laravel5-fractal": "^1.2",
+        "sami/sami": "^3.0",
+        "kris/laravel-form-builder": "^1.6"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

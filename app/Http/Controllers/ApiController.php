@@ -44,8 +44,7 @@ class ApiController extends Controller {
 		return $this->setStatusCode(500)->respondWithError($message);
 	}
 
-
-	/**
+		/**
 	 * @param string $message
 	 * @return mixed
      */

@@ -8,19 +8,28 @@ use Fractal;
 use App\Category;
 use App\Transformers;
 use Illuminate\Validation\Validator;
+use Mockery\CountValidator\Exception;
 
 
 /**
  * Class CategoryController
  * @package App\Http\Controllers
  */
-class CategoryController extends Controller
+class CategoryController extends ApiController
 {
     /**
      * Display a listing of the resource.
      * @return Response
      */
     public function index()
+    {
+        return $this->all();
+    }
+
+    /**
+     * @return mixed
+     */
+    public function all()
     {
         try
         {
@@ -36,13 +45,48 @@ class CategoryController extends Controller
         }
     }
 
+    /**
+     * @return mixed
+     */
+    public function create()
+    {
+        return \View::make('categories.create');
+    }
 
-    public  function store(StoreCategoryRequest $request){
+    /**
+     * @param Request $request
+     * @return string
+     */
+    public  function store(Request $request){
 
-        $category = new Category;
-        $category->name = \Input::get('name');
 
-        return $category;
+        try {
+            //return $request->name;
+            $validator = \Validator::make($request->all(), [
+                'name' => 'required|unique:categories|min:3'
+            ]);
+
+
+            if ($validator->fails()) {
+                return $this->respondWithError($validator->errors());
+            }
+
+            $category = new Category;
+            $category->name = $request->get('name');
+            if (!$category->save()){
+                return $this->respondWithError('Could not create category');
+            }
+            return Fractal::item($category, new \App\Transformers\CategoryTransformer)->responseJson(200);
+
+
+            //return redirect('/categories');
+
+
+        } catch(Exception $e) {
+            return $this->respondInternalError();
+        }
+
+    
     }
 
     /**

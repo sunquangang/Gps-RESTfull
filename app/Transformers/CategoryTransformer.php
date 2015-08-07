@@ -34,6 +34,8 @@ class CategoryTransformer extends TransformerAbstract
      */
     public function transform($resource)
     {
+
+
         //return new \League\Fractal\Resource\Collection($resource,new ResourceTransformer);
         return [
             'id' => $resource->id,
@@ -43,7 +45,8 @@ class CategoryTransformer extends TransformerAbstract
                 'last_update' => $resource->updated_at,
                 'links' => [
                     'rel' => 'self',
-                    'uri' => 'api/categories/'.$resource->id
+                    'slug' => $resource->id,
+                    'uri' => 'api/categories/'.$resource->id,
                 ]
             ]
         ];

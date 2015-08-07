@@ -1,7 +1,7 @@
-<?php
-/**
- * Created by PhpStorm.
- * User: CarstenD
- * Date: 07/08/15
- * Time: 07.17
- */
+@extends('welcome')
+
+@section('content')
+        @foreach($points as $point)
+        {{var_dump($point)}}
+        @endforeach
+@endsection
