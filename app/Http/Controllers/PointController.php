@@ -1,5 +1,6 @@
 <?php namespace App\Http\Controllers;
 
+use App\Transformers\PointTransformer;
 use Fractal;
 use Illuminate\Http\Request;
 use App\Http\Requests;
@@ -27,7 +28,7 @@ class PointController extends ApiController
                 return $this->respondNotFound();
             }
 
-            return Fractal::collection($points, new \App\Transformers\PointTransformer)->responseJson(200);
+            return Fractal::collection($points, new PointTransformer)->responseJson(200);
 
         } 
         catch (Exception $e) 
@@ -54,7 +55,7 @@ class PointController extends ApiController
             }
 
 
-            return Fractal::item($point, new \App\Transformers\PointTransformer)->responseJson(200);
+            return Fractal::item($point, new PointTransformer)->responseJson(200);
 
         } catch (Exception $e) {
             return $this->respondInternalError();
@@ -71,36 +72,46 @@ class PointController extends ApiController
      * @param  Request  $request
      * @return Response
      */
-    public function store(Requests\CreatePointRequest $request)
-    {
+    public  function store(Request $request){
 
 
         try {
+            //return $request->name;
 
-            // Bind input to data array
-            $data = [
-                'longitude' => \Input::get('longitude'),
-                'latitude' => \Input::get('latitude'),
-                'created_by' => \Auth::user()->id,
-                'image'     => \Input::get('image'),
-                'category_id'     => \Input::get('category'),
-            ];
-
-            // Validate
-
-            return $data;
+            $validator = \Validator::make($request->all(), [
+                'longitude' => 'required|min:3|',
+                'latitude' => 'required|min:3',
+                'category' => 'required',
+            ]);
 
 
+            if ($validator->fails()) {
+                return $this->respondWithError($validator->errors());
+            }
 
-            // Add to DB
+            $model = new Point;
+            $model->coordinates = $request->longitude . ',' . $request->latitude;
+            $model->longitude = $request->longitude;
+            $model->latitude = $request->latitude;
+            $model->created_by = \Auth::user()->id;
+            $model->category_id = $request->category;
 
-            // Success or Error
 
 
-        } catch (Exception $e) {
-            return $this->_fail_505();
+            if (!$model->save()){
+                return $this->respondWithError('Could not create point');
+            }
+            return Fractal::item($model, new PointTransformer)->responseJson(200);
+
+
+            //return redirect('/categories');
+
+
+        } catch(Exception $e) {
+            return $this->respondInternalError();
         }
-        
+
+
     }
 
 

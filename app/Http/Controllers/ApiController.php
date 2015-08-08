@@ -86,6 +86,11 @@ class ApiController extends Controller {
      */
 	public function respond($data, $headers = [])
 	{
+
+		$headers =header('Access-Control-Allow-Origin', '*');
+		header('Allow', 'GET, POST, PUT, DELETE, OPTIONS');
+		header('Access-Control-Allow-Headers', 'Origin, Content-Type, Accept, Authorization, X-Request-With');
+		header('Access-Control-Allow-Credentials', 'true');
 		return \Response::json($data, $this->getStatusCode(), $headers);
 	}
 }

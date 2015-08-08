@@ -14,7 +14,8 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-	Route::group(['middleware' => 'auth'], function(){
+//Route::group(['middleware' => 'auth'], function(){
+	Route::group(['middleware' => 'cors'], function(){
 		Route::group(['prefix' => 'api'], function(){
 			Route::get('/', function() {  
 				return Auth::user(); 
@@ -28,6 +29,8 @@ Route::get('/', function () {
 		Route::resource('categories', 'CategoryController',
 			array('only' => array('index', 'create')));
 	});
+
+//});
 
 Route::controllers([
     'auth' => 'Auth\AuthController',

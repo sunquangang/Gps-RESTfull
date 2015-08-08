@@ -38,8 +38,9 @@ class PointTransformer extends TransformerAbstract
         return [
             'id' => $resource->id,
             'coordinats' => [
-                'longitude'=>$resource->longitude,
-                'latitude'=>$resource->latitude,
+                'longitude' => $resource->longitude,
+                'latitude' => $resource->latitude,
+                'coordinates' => $resource->coordinates
             ],
             'image' => [
 
