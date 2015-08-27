@@ -1,10 +1,11 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use App\User;
-use App\Point;
-class UserTableSeeder extends Seeder
+
+class UserTableSeeder extends DatabaseSeeder
 {
+
+
     /**
      * Run the database seeds.
      *
@@ -12,28 +13,31 @@ class UserTableSeeder extends Seeder
      */
     public function run()
     {
-        $faker = Faker\Factory::create();
 
-        //User::truncate();
+      $loop = 100;
+      $faker = $this->getFaker();
 
-        foreach(range(1,10) as $index)  
-        {  
-            User::create([  
-                'name' => str_replace('.', '_', $faker->unique()->userName),  
-                'email' => $faker->email,  
-                'password' => 'password', 
-            ]);  
-        }
+      // create admin User
+      \App\User::create([
+          "name" => 'admin',
+          "email" => 'arelstone@gmail.com',
+          $password = Hash::make("password"),
+          $remember_token = md5(uniqid(mt_rand(), true)),
+      ]);
 
-        Point::truncate();
-		foreach(range(1,50) as $index)  
-        {  
-            Point::create([  
-                'latitude' => $faker->latitude,
-                'longitude' => $faker->longitude,
-                'created_by' => $faker->randomNumber(10),
-                'created_at' => $fake->dateTime(),
-            ]);  
-        }
+      for ($i = 0; $i < $loop-1; $i++)
+      {
+          $name = $faker->userName;
+          $email = $faker->email;
+          $password = Hash::make("password");
+          $remember_token = md5(uniqid(mt_rand(), true));
+
+          \App\User::create([
+            "name" => $name,
+              "email" => $email,
+              "password" => $password,
+              "remember_token" => $remember_token,
+          ]);
+      }
     }
 }

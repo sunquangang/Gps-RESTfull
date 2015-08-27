@@ -10,27 +10,23 @@
 | and give it the controller to call when that URI is requested.
 |
 */
-Route::get('/', function () {
-    return view('welcome');
-});
 
-//Route::group(['middleware' => 'auth'], function(){
+
+Route::group(['middleware' => 'auth'], function(){
+  Route::get('/', 'PointController@index');
+
 	Route::group(['middleware' => 'cors'], function(){
 		Route::group(['prefix' => 'api'], function(){
-			Route::get('/', function() {  
-				return Auth::user(); 
-			});
 			Route::resource('points', 'PointController',
 				array('only' => array('index', 'show', 'store')));
-			Route::resource('categories', 'CategoryController',
+			Route::resource('tag', 'TagController',
 				array('only' => array('index', 'store', 'show')));
+			//Route::get('categories/{id}/points', 'CategoryController@showWithPoint');
 		});
 
-		Route::resource('categories', 'CategoryController',
-			array('only' => array('index', 'create')));
 	});
 
-//});
+});
 
 Route::controllers([
     'auth' => 'Auth\AuthController',

@@ -37,16 +37,15 @@ class PointTransformer extends TransformerAbstract
     {
         return [
             'id' => $resource->id,
+            'name' => $resource->name,
+            'description' => $resource->description,
             'coordinats' => [
                 'longitude' => $resource->longitude,
                 'latitude' => $resource->latitude,
                 'coordinates' => $resource->coordinates
             ],
-            'image' => [
-
-
-               'id' => $resource->image
-            ],
+            'header_image' => $resource->image[0]->path .'/'. $resource->id .'/'. $resource->image[0]->filename.'.'.$resource->image[0]->mime,
+            'images' => $resource->image,
             'created_by' => $resource->user,
             'category' => [
                 'id' => $resource->category->id,

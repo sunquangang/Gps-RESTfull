@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'debug' => env('APP_DEBUG', false),
+    'debug' => env('APP_DEBUG', true),
 
     /*
     |--------------------------------------------------------------------------
@@ -146,6 +146,9 @@ return [
         *   Self added libaries
         */
         Cyvelnet\Laravel5Fractal\Laravel5FractalServiceProvider::class,
+        //Tymon\JWTAuth\Providers\JWTAuthServiceProvider::class
+         Barryvdh\Cors\ServiceProvider::class,
+         Chrisbjr\ApiGuard\Providers\ApiGuardServiceProvider::class,
 
     ],
 
@@ -196,8 +199,7 @@ return [
         'View'      => Illuminate\Support\Facades\View::class,
 
         'Fractal'   => Cyvelnet\Laravel5Fractal\Facades\Fractal::class,
-        //'Form'      => Illuminate\Html\FormFacade::class,
 
-    ],
+    ]
 
 ];

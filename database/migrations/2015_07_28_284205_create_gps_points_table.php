@@ -15,13 +15,14 @@ class CreateGpsPointsTable extends Migration
         Schema::dropIfExists('points');
         Schema::create('points', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('name');
+            $table->text('description');
             $table->double('latitude', 15, 8);
             $table->double('longitude', 15, 8);
-            $table->string('coordinates')->unique();
-            $table->integer('category_id')->unsigned();
-            $table->foreign('category_id')->references('id')->on('categories');
             $table->integer('created_by')->unsigned();
             $table->foreign('created_by')->references('id')->on('users');
+            $table->integer('updated_by')->unsigned();
+            $table->foreign('updated_by')->references('id')->on('users');
             $table->timestamps();
             $table->softDeletes();
         });

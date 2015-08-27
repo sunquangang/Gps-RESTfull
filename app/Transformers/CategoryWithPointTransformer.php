@@ -7,11 +7,7 @@ use League\Fractal\TransformerAbstract;
 use League\Fractal\Resource\Collection;
 use League\Fractal\Resource\Item;
 
-/**
- * Class CategoryTransformer
- * @package App\Transformers
- */
-class CategoryTransformer extends TransformerAbstract
+class CategoryWithPointTransformer extends TransformerAbstract
 {
     /**
      * List of resources possible to include
@@ -29,17 +25,18 @@ class CategoryTransformer extends TransformerAbstract
 
     /**
      * Transform object into a generic array
-     *
      * @var  object
      */
+
     public function transform($resource)
     {
 
 
-        //return new \League\Fractal\Resource\Collection($resource,new ResourceTransformer);
         return [
             'id' => $resource->id,
             'name' => $resource->name,
+            'points' => [$resource->point, 'user' => $resource->point],
+            //'points' => $this->_transformPoint($resource->point),
             'meta' => [
                 'created_at' => $resource->created_at,
                 'last_update' => $resource->updated_at,
@@ -50,6 +47,27 @@ class CategoryTransformer extends TransformerAbstract
                 ]
             ]
         ];
+    }
+
+    /**
+     * @todo Brug PointTransformer
+     *
+     *
+     * @param $resource
+     * @return mixed
+     */
+    private function _transformPoint($resource)
+    {
+
+        /*foreach ($resource as $res) {
+            var_dump($res->all());
+        }*/
+
+
+
+
+        //dd(\Fractal::collection($resource, new PointTransformer));
+        return \Fractal::collection($resource, new PointTransformer);
     }
 
 }

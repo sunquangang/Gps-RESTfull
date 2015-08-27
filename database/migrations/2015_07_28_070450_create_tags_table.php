@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateCategoryTable extends Migration
+class CreateTagsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,9 +12,8 @@ class CreateCategoryTable extends Migration
      */
     public function up()
     {
-        //
-        Schema::dropIfExists('categories');
-        Schema::create('categories', function(Blueprint $table){
+        Schema::dropIfExists('tags');
+        Schema::create('tags', function(Blueprint $table){
             $table->increments('id');
             $table->string('name');
             $table->softDeletes();
@@ -30,6 +29,6 @@ class CreateCategoryTable extends Migration
     public function down()
     {
         //
-        Schema::drop('categories');
+        Schema::drop('tags');
     }
 }
