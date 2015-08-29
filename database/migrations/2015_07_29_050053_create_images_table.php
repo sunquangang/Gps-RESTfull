@@ -20,14 +20,14 @@ class CreateImagesTable extends Migration
             $table->string('filename');
             $table->string('mime_type');
             $table->integer('point_id')->unsigned();
-            $table->foreign('point_id')->references('id')->on('points')->onDelete('cascade');
+            $table->foreign('point_id')->references('id')->on('points');
 
 
             $table->integer('created_by')->unsigned();
-            $table->foreign('created_by')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('created_by')->references('id')->on('users');
 
             $table->integer('updated_by')->unsigned();
-            $table->foreign('updated_by')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('updated_by')->references('id')->on('users');
 
             $table->timestamps();
             $table->softDeletes();

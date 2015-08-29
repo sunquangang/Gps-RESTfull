@@ -149,6 +149,7 @@ return [
         //Tymon\JWTAuth\Providers\JWTAuthServiceProvider::class
          Barryvdh\Cors\ServiceProvider::class,
          Chrisbjr\ApiGuard\Providers\ApiGuardServiceProvider::class,
+         Barryvdh\Debugbar\ServiceProvider::class,
 
     ],
 
@@ -199,6 +200,7 @@ return [
         'View'      => Illuminate\Support\Facades\View::class,
 
         'Fractal'   => Cyvelnet\Laravel5Fractal\Facades\Fractal::class,
+        'Debugbar' => Barryvdh\Debugbar\Facade::class,
 
     ]
 

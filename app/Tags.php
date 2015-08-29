@@ -6,10 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Tags extends Model
 {
-	//use SoftDeletingTrait;
     protected $table = 'tags';
 	  protected $fillable = ['id', 'name'];
     protected $hidden = ['created_at', 'updated_at', 'deleted_at'];
+    public $timestamps = false;
 
     /**
      * A Category has many Points
@@ -21,10 +21,6 @@ class Tags extends Model
          return $this->hasMany('App\Point');
      }
 
-     public function PointTags()
-     {
-         return $this->hasMany('App\PointTag', 'tag_id');
-     }
 
 
 

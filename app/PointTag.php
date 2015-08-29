@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class PointTag extends Model
 {
-    protected $table = 'point_tags';
+    protected $table = 'point_tag';
     protected $fillable = ['point_id', 'tag_id'];
 
     public function tags()

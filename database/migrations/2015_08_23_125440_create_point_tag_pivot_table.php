@@ -12,12 +12,12 @@ class CreatePointTagPivotTable extends Migration
      */
     public function up()
     {
-        Schema::dropIfExists('point_tags');
-        Schema::create('point_tags', function(Blueprint $table) {
+        Schema::create('point_tag', function(Blueprint $table) {
+          $table->increments('id');
             $table->integer('point_id')->unsigned()->index();
-            $table->foreign('point_id')->references('id')->on('points')->onDelete('cascade');
-            $table->integer('tag_id')->unsigned()->index();
-            $table->foreign('tag_id')->references('id')->on('tags')->onDelete('cascade');
+            $table->foreign('point_id')->references('id')->on('points');
+            $table->integer('tags_id')->unsigned()->index();
+            $table->foreign('tags_id')->references('id')->on('tags');
             $table->timestamps();
         });
     }

@@ -35,6 +35,8 @@ class PointTransformer extends TransformerAbstract
      */
     public function transform($resource)
     {
+
+      //dd($resource);
         return [
             'id' => $resource->id,
             'name' => $resource->name,
@@ -44,16 +46,11 @@ class PointTransformer extends TransformerAbstract
                 'latitude' => $resource->latitude,
                 'coordinates' => $resource->coordinates
             ],
-            'header_image' => $resource->image[0]->path .'/'. $resource->id .'/'. $resource->image[0]->filename.'.'.$resource->image[0]->mime,
+            //'header_image' => $resource->image[0]->path .'/'. $resource->id .'/'. $resource->image[0]->filename.'.'.$resource->image[0]->mime,
             'images' => $resource->image,
             'created_by' => $resource->user,
-            'category' => [
-                'id' => $resource->category->id,
-                'name' => $resource->category->name,
-                'links' => [
-                    'rel' => 'self',
-                    'uri' => '/api/categories/'.$resource->category->id
-                ]
+            'tag' => [
+              $this->loop_tags($resource->tags)
             ],
             'meta' => [
                 'status' => [
@@ -70,6 +67,29 @@ class PointTransformer extends TransformerAbstract
         ];
     }
 
+    /**
+    * Transform a collection of Tags
+    * @return array $array An array of tags
+    */
+    private function loop_tags($tags){
+      //return($tags);
+      $array = [];
+      foreach ($tags as $key => $tag) {
+        $array[$key] = [
+          'id' => $tag->id,
+          'tag' => $tag->name,
+          'meta' => [
+            "links" => [
+                "rel" => "self",
+                "slug" => $tag->id,
+                "uri" => "/api/tag/". $tag->id
+            ],
+            "created_at" => $tag->created_at
+          ]
+        ];
+      }
+      return $array;
+    }
 
 
 }

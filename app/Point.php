@@ -41,19 +41,20 @@ class Point extends model
 
     /**
      * A Point has many Images
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
     public function image()
     {
-        return $this->hasMany('App\Image');
+        return $this->hasOne('App\Image', 'point_id');
     }
 
     /**
-     * A Point has one Category
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     * A Point has one many through point_tags
+     * @return \Illuminate\Database\Eloquent\Relations\hasManyThrough
      */
     public function tags()
     {
-        return $this->belongsToMany('Tags')->withPivot('id');
+        return $this->belongsToMany('App\Tags', 'point_tag')->withPivot('id', 'tags_id');
     }
+
 }
