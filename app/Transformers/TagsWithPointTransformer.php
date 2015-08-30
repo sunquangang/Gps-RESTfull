@@ -7,7 +7,7 @@ use League\Fractal\TransformerAbstract;
 use League\Fractal\Resource\Collection;
 use League\Fractal\Resource\Item;
 
-class CategoryWithPointTransformer extends TransformerAbstract
+class TagsWithPointTransformer extends TransformerAbstract
 {
     /**
      * List of resources possible to include
@@ -21,7 +21,7 @@ class CategoryWithPointTransformer extends TransformerAbstract
      *
      * @var  array
      */
-    protected $defaultIncludes = [];
+    protected $defaultIncludes = ['points'];
 
     /**
      * Transform object into a generic array
@@ -35,39 +35,29 @@ class CategoryWithPointTransformer extends TransformerAbstract
         return [
             'id' => $resource->id,
             'name' => $resource->name,
-            'points' => [$resource->point, 'user' => $resource->point],
-            //'points' => $this->_transformPoint($resource->point),
+            'points' => [
+              //$resource->points, 'user' => $resource->point],
+              $this->includePoints($resource->points)
+            ],
             'meta' => [
                 'created_at' => $resource->created_at,
                 'last_update' => $resource->updated_at,
                 'links' => [
                     'rel' => 'self',
                     'slug' => $resource->id,
-                    'uri' => 'api/categories/'.$resource->id,
+                    'uri' => 'api/tags/'.$resource->id,
                 ]
             ]
         ];
     }
 
-    /**
-     * @todo Brug PointTransformer
-     *
-     *
-     * @param $resource
-     * @return mixed
-     */
-    private function _transformPoint($resource)
-    {
+    public function includePoints($points)
+      {
+        //dd($points);
+        //dd($this->defaultIncludes);
+          $point = $points;
 
-        /*foreach ($resource as $res) {
-            var_dump($res->all());
-        }*/
-
-
-
-
-        //dd(\Fractal::collection($resource, new PointTransformer));
-        return \Fractal::collection($resource, new PointTransformer);
-    }
+          return $this->item($point, new PointTransformer);
+      }
 
 }

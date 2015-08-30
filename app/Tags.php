@@ -16,9 +16,9 @@ class Tags extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-     public function point()
+     public function points()
      {
-         return $this->hasMany('App\Point');
+         return $this->belongsToMany('App\Point', 'point_tag')->withPivot('id', 'point_id');
      }
 
 

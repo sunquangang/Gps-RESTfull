@@ -45,7 +45,7 @@ class Point extends model
      */
     public function image()
     {
-        return $this->hasOne('App\Image', 'point_id');
+        return $this->hasMany('App\Image', 'point_id');
     }
 
     /**

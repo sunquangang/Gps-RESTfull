@@ -33,24 +33,25 @@ class PointTransformer extends TransformerAbstract
      * @var  object
      * @return array
      */
-    public function transform($resource)
+    public function transform($point)
     {
-
+//$header_img = $point->image->first();
+//dd($header_img);
       //dd($resource);
         return [
-            'id' => $resource->id,
-            'name' => $resource->name,
-            'description' => $resource->description,
+            'id' => $point->id,
+            'name' => $point->name,
+            'description' => $point->description,
             'coordinats' => [
-                'longitude' => $resource->longitude,
-                'latitude' => $resource->latitude,
-                'coordinates' => $resource->coordinates
+                'longitude' => $point->longitude,
+                'latitude' => $point->latitude
             ],
-            //'header_image' => $resource->image[0]->path .'/'. $resource->id .'/'. $resource->image[0]->filename.'.'.$resource->image[0]->mime,
-            'images' => $resource->image,
-            'created_by' => $resource->user,
+
+            //'header_image' => $header_img->path . '/'. $header_img->filename . '.' . $header_img->mime_type,
+            'images' => $point->image,
+            'created_by' => $point->user,
             'tag' => [
-              $this->loop_tags($resource->tags)
+              //$this->loop_tags($resource->tags)
             ],
             'meta' => [
                 'status' => [
@@ -59,9 +60,9 @@ class PointTransformer extends TransformerAbstract
                 ],
                 'links'   => [
                     'rel' => 'self',
-                    'uri' => '/api/points/'.$resource->id,
+                    'uri' => '/api/points/'.$point->id,
                 ],
-                'created_at' => $resource->created_at,
+                'created_at' => $point->created_at,
 
             ]
         ];
@@ -72,7 +73,6 @@ class PointTransformer extends TransformerAbstract
     * @return array $array An array of tags
     */
     private function loop_tags($tags){
-      //return($tags);
       $array = [];
       foreach ($tags as $key => $tag) {
         $array[$key] = [
@@ -82,7 +82,7 @@ class PointTransformer extends TransformerAbstract
             "links" => [
                 "rel" => "self",
                 "slug" => $tag->id,
-                "uri" => "/api/tag/". $tag->id
+                "uri" => "/api/tags/". $tag->id
             ],
             "created_at" => $tag->created_at
           ]

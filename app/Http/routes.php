@@ -19,7 +19,7 @@ Route::group(['middleware' => 'auth'], function(){
 		Route::group(['prefix' => 'api'], function(){
 			Route::resource('points', 'PointController',
 				array('only' => array('index', 'show', 'store')));
-			Route::resource('tag', 'TagController',
+			Route::resource('tags', 'TagController',
 				array('only' => array('index', 'store', 'show')));
 			//Route::get('categories/{id}/points', 'CategoryController@showWithPoint');
 		});

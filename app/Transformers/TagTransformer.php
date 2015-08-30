@@ -44,7 +44,7 @@ class TagTransformer extends TransformerAbstract
                 'links' => [
                     'rel' => 'self',
                     'slug' => $resource->id,
-                    'uri' => 'api/tag/'.$resource->id,
+                    'uri' => 'api/tags/'.$resource->id,
                 ]
             ]
         ];

@@ -22,7 +22,8 @@ class TagController extends ApiController
     {
         try
         {
-            $resp = Tags::all();
+            $resp = Tags::with('points')->take('100')->get();
+            return $resp;
             if (!$resp) {
                 return $this->respondNotFound();
             }
@@ -75,10 +76,12 @@ class TagController extends ApiController
       try
       {
           $resp = Tags::find($id);
+
           if (!$resp) {
               return $this->respondNotFound();
           }
-          return Fractal::item($resp, new \App\Transformers\TagTransformer)->responseJson(200);
+          //dd($resp->point);
+          return Fractal::item($resp, new \App\Transformers\TagsWithPointTransformer)->responseJson(200);
       }
       catch (Exception $e)
       {
