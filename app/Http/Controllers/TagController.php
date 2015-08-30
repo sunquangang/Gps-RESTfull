@@ -18,24 +18,24 @@ class TagController extends ApiController
      *
      * @return Response
      */
-    public function index()
-    {
-        try
-        {
-            $resp = Tags::with('points')->take('100')->get();
-            return $resp;
-            if (!$resp) {
-                return $this->respondNotFound();
-            }
-            return Fractal::collection($resp, new \App\Transformers\TagTransformer)->responseJson(200);
-        }
-        catch (Exception $e)
-        {
-            return $this->respondWithError();
-        }
-    }
+     public function index()
+     {
+         try
+         {
+             $resp = Tags::all();
+             if (!$resp) {
+                 return $this->respondNotFound();
+             }
+             return Fractal::collection($resp, new \App\Transformers\TagTransformer)->responseJson(200);
+         }
+         catch (Exception $e)
+         {
+             return $this->respondWithError();
+         }
+     }
 
-    /**
+
+     /**
      * Store a newly created resource in storage.
      *
      * @param  Request  $request
@@ -57,13 +57,13 @@ class TagController extends ApiController
           if (!$stdObj->save()){
               return $this->respondWithError();
           }
-
           return Fractal::item($stdObj, new \App\Transformers\TagTransformer)->responseJson(200);
       } catch(Exception $e) {
           return $this->respondInternalError();
       }
 
     }
+
 
     /**
      * Display the specified resource.
@@ -76,12 +76,13 @@ class TagController extends ApiController
       try
       {
           $resp = Tags::find($id);
-
           if (!$resp) {
               return $this->respondNotFound();
           }
-          //dd($resp->point);
-          return Fractal::item($resp, new \App\Transformers\TagsWithPointTransformer)->responseJson(200);
+          /*foreach ($resp->points as $point) {
+            var_dump($point);
+          }*/
+          return Fractal::item($resp, new \App\Transformers\TagTransformer)->responseJson(200);
       }
       catch (Exception $e)
       {

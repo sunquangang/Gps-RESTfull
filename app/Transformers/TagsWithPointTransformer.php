@@ -28,24 +28,24 @@ class TagsWithPointTransformer extends TransformerAbstract
      * @var  object
      */
 
-    public function transform($resource)
+    public function transform($tag)
     {
-
+//return $resource;
 
         return [
-            'id' => $resource->id,
-            'name' => $resource->name,
+            'id' => $tag->id,
+            'name' => $tag->name,
             'points' => [
               //$resource->points, 'user' => $resource->point],
-              $this->includePoints($resource->points)
+              $this->includePoints($tag->points)
             ],
             'meta' => [
-                'created_at' => $resource->created_at,
-                'last_update' => $resource->updated_at,
+                'created_at' => $tag->created_at,
+                'last_update' => $tag->updated_at,
                 'links' => [
                     'rel' => 'self',
-                    'slug' => $resource->id,
-                    'uri' => 'api/tags/'.$resource->id,
+                    'slug' => $tag->id,
+                    'uri' => 'api/tags/'.$tag->id,
                 ]
             ]
         ];
@@ -56,8 +56,12 @@ class TagsWithPointTransformer extends TransformerAbstract
         //dd($points);
         //dd($this->defaultIncludes);
           $point = $points;
+          //var_dump($point);
+        foreach ($point as $p) {
+          //var_dump($p->get());
+          return $this->item($p, new PointTransformer);
+        }
 
-          return $this->item($point, new PointTransformer);
       }
 
 }

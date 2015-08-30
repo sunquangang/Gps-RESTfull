@@ -37,7 +37,7 @@ class PointTransformer extends TransformerAbstract
     {
 //$header_img = $point->image->first();
 //dd($header_img);
-      //dd($resource);
+      //return $point;
         return [
             'id' => $point->id,
             'name' => $point->name,
@@ -51,7 +51,7 @@ class PointTransformer extends TransformerAbstract
             'images' => $point->image,
             'created_by' => $point->user,
             'tag' => [
-              //$this->loop_tags($resource->tags)
+              $this->loop_tags($point->tags)
             ],
             'meta' => [
                 'status' => [

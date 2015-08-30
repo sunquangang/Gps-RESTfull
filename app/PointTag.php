@@ -8,6 +8,7 @@ class PointTag extends Model
 {
     protected $table = 'point_tag';
     protected $fillable = ['point_id', 'tag_id'];
+    public $timestamps = false;
 
     public function tags()
     {

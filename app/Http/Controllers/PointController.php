@@ -21,22 +21,7 @@ class PointController extends ApiController
     {
       try
       {
-
-        \DB::enableQueryLog();
-
-
-
-
-          /*$resp = \DB::table('points')
-            ->join('point_tags', 'points.id', '=', 'point_tags.point_id')
-            ->join('tags', 'tags.id', '=', 'point_tags.tag_id')
-            ->select('points.*', 'tags.name as tag', 'point_tags.*')
-            ->get();*/
-
-            $resp = Point::with('tags')->with('user')->with('image')->get();
-
-            //dd($resp);
-
+          $resp = Point::with('tags')->with('user')->with('image')->get();
           if (!$resp) {
               return $this->respondNotFound();
           }
@@ -49,25 +34,55 @@ class PointController extends ApiController
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  Request  $request
      * @return Response
      */
-    public function store(Request $request)
-    {
-        //
-    }
+     public function store(Request $request)
+     {
+       try {
+           //return $request->name;
+           $validator = \Validator::make($request->all(), [
+               'name' => 'required|min:3',
+               'description' => 'required|min:3',
+               'latitude' => 'required|min:3',
+               'longitude' => 'required|min:3',
+               'tags' => 'required',
+           ]);
+           if ($validator->fails()) {
+               return $this->respondWithError($validator->errors());
+           }
+
+           $tags = explode(',', $request->get('tags'));
+           $stdObj = new Point;
+           $stdObj->name = $request->get('name');
+           $stdObj->description = $request->get('description');
+           $stdObj->longitude = $request->get('longitude');
+           $stdObj->latitude = $request->get('latitude');
+           $stdObj->created_by = \Auth::user()->id;
+           $stdObj->updated_by = \Auth::user()->id;
+           if (!$stdObj->save()){
+               return $this->respondWithError();
+           }
+
+           foreach ($tags as $t) {
+             $tag = new \App\PointTag;
+             $tag->point_id = $stdObj->id;
+
+             $tag->tags_id = $t;
+             if (!$tag->save())
+             {
+               return $this->respondWithError('Could not add tag ('.$t.')');
+             }
+           }
+           return Fractal::item($stdObj, new \App\Transformers\PointTransformer)->responseJson(200);
+       } catch(Exception $e) {
+           return $this->respondInternalError();
+       }
+
+     }
+
 
     /**
      * Display the specified resource.
@@ -80,7 +95,6 @@ class PointController extends ApiController
       try
       {
         $resp = Point::find($id);
-
           if (!$resp) {
               return $this->respondNotFound();
           }
