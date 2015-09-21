@@ -148,8 +148,8 @@ return [
         Cyvelnet\Laravel5Fractal\Laravel5FractalServiceProvider::class,
         //Tymon\JWTAuth\Providers\JWTAuthServiceProvider::class
          Barryvdh\Cors\ServiceProvider::class,
-         Chrisbjr\ApiGuard\Providers\ApiGuardServiceProvider::class,
          Barryvdh\Debugbar\ServiceProvider::class,
+         Tymon\JWTAuth\Providers\JWTAuthServiceProvider::class,
 
     ],
 
@@ -201,6 +201,9 @@ return [
 
         'Fractal'   => Cyvelnet\Laravel5Fractal\Facades\Fractal::class,
         'Debugbar' => Barryvdh\Debugbar\Facade::class,
+        
+        'JWTAuth' => Tymon\JWTAuth\Facades\JWTAuth::class,
+        'JWTFactory' => Tymon\JWTAuth\Facades\JWTFactory::class
 
     ]
 

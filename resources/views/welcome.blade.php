@@ -38,7 +38,7 @@
     <body>
         <div class="container">
             <div class="content">
-                @yield('content')
+                Welcome. You can now use the Api!
             </div>
         </div>
     </body>

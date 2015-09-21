@@ -11,18 +11,26 @@
 |
 */
 
+//Route::group(['middleware' => 'auth'], function(){
+Route::get('/', function () { return View::make('welcome'); });
 
-Route::group(['middleware' => 'auth'], function(){
-  Route::get('/', 'PointController@index');
-	Route::group(['middleware' => 'cors'], function(){
-		Route::group(['prefix' => 'api'], function(){
-			Route::resource('points', 'PointController',
-				array('only' => array('index', 'show', 'store')));
-			Route::resource('tags', 'TagController',
-				array('only' => array('index', 'store', 'show')));
-		});
+  Route::group(['middleware' => 'cors'], function () {
+        Route::group(['prefix' => 'api'], function () {
 
-	});
+          Route::get('/', function () { return \Auth::user(); });
+
+          Route::resource('upload', 'ImageController',
+              array('only' => array('store')));
+            Route::resource('points', 'PointController',
+                array('only' => array('index', 'show', 'store')));
+            
+
+            Route::resource('tags', 'TagController',
+                array('only' => array('index', 'store', 'show')));
+        });
+
+
+    //});
 
 });
 

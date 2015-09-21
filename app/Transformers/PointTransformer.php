@@ -46,10 +46,8 @@ class PointTransformer extends TransformerAbstract
                 'longitude' => $point->longitude,
                 'latitude' => $point->latitude
             ],
-
-            //'header_image' => $header_img->path . '/'. $header_img->filename . '.' . $header_img->mime_type,
-            'images' => $point->image,
             'created_by' => $point->user,
+            'images' => $this->loop_images($point->image),
             'tag' => [
               $this->loop_tags($point->tags)
             ],
@@ -63,7 +61,6 @@ class PointTransformer extends TransformerAbstract
                     'uri' => '/api/points/'.$point->id,
                 ],
                 'created_at' => $point->created_at,
-
             ]
         ];
     }
@@ -73,23 +70,43 @@ class PointTransformer extends TransformerAbstract
     * @return array $array An array of tags
     */
     private function loop_tags($tags){
-      $array = [];
-      foreach ($tags as $key => $tag) {
-        $array[$key] = [
-          'id' => $tag->id,
-          'tag' => $tag->name,
-          'meta' => [
-            "links" => [
-                "rel" => "self",
-                "slug" => $tag->id,
-                "uri" => "/api/tags/". $tag->id
-            ],
-            "created_at" => $tag->created_at
-          ]
-        ];
-      }
-      return $array;
+        $array = [];
+        foreach ($tags as $key => $tag) {
+            $array[$key] = [
+                'id' => $tag->id,
+                'tag' => $tag->name,
+                'meta' => [
+                    "links" => [
+                        "rel" => "self",
+                        "slug" => $tag->id,
+                        "uri" => "/api/tags/". $tag->id
+                    ],
+                    "created_at" => $tag->created_at
+                ]
+            ];
+        }
+        return $array;
     }
+
+    private function loop_images($images){
+        $array = [];
+        foreach ($images as $key => $image) {
+            $array[$key] = [
+                'filename' => $image->filename,
+                'extension' => $image->ext,
+                'path'=> $image->path . '/' . $image->filename.'.'.$image->ext,
+                'meta' => [
+                    "links" => [
+                        "rel" => "self",
+                        "uri" => "/api/point/". $image->point_id . '/images/' . $image->filename
+                    ],
+                    "created_at" => $image->created_at
+                ]
+            ];
+        }
+        return $array;
+    }
+
 
 
 }
