@@ -20,10 +20,12 @@ Route::get('/', function () { return View::make('welcome'); });
           Route::get('/', function () { return \Auth::user(); });
 
           Route::resource('upload', 'ImageController',
-              array('only' => array('store')));
-            Route::resource('points', 'PointController',
-                array('only' => array('index', 'show', 'store')));
+              array('only' => array('store', 'show')));
+          
+          Route::resource('points', 'PointController',
+              array('only' => array('index', 'show', 'store')));
             
+          Route::get('/points/{id}/image/{filename}', 'PointController@image');
 
             Route::resource('tags', 'TagController',
                 array('only' => array('index', 'store', 'show')));

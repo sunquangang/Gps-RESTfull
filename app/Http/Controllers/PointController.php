@@ -9,13 +9,13 @@ class PointController extends ApiController
 {
     /**
      * Display a listing of the resource.
-     *
+     * @param $limit int Default 15, but can be overwritten
      * @return Response
      */
-    public function index()
+    public function index($limit = 15)
     {
         try {
-            $resp = Point::with('tags')->with('user')->with('image')->get();
+            $resp = Point::paginate($limit);;
             if (!$resp) {
                 return $this->respondNotFound();
             }
@@ -90,11 +90,6 @@ class PointController extends ApiController
         } catch (Exception $e) {
             return $this->respondWithError();
         }
-    }
-
-    public function image ($filename) {
-        dd('sdfsdfsdf');
-        dd($filename);
     }
 
     /**

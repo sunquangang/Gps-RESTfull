@@ -7,7 +7,7 @@ use League\Fractal\TransformerAbstract;
 use League\Fractal\Resource\Collection;
 use League\Fractal\Resource\Item;
 
-class ImageTransformer extends TransformerAbstract
+class UserTransformer extends TransformerAbstract
 {
     /**
      * List of resources possible to include
@@ -30,11 +30,14 @@ class ImageTransformer extends TransformerAbstract
      */
     public function transform($resource)
     {
+        //return new \League\Fractal\Resource\Collection($resource,new ResourceTransformer);
+
         return [
-            'filename' => $resource->filename,
-            'mime_type' => $resource->mime_type,
-            'data' => 'data:'.$resource->mime_type.';base64,'.$resource->base64, //$resource->base64,
-            'raw' => $resource->base64,
+            'data' => [
+                'id' => $resource->id,
+                'name' => $resource->name,
+                'email' => $resource->email,
+            ]
         ];
     }
 

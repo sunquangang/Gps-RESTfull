@@ -20,9 +20,14 @@ class ImageController extends ApiController
     protected $destination = 'uploads';
 
 
-public function show($filename){
-  dd($filename);
-}
+    public function show($filename){
+      $file = Image::where('filename', $filename)->firstOrFail();
+
+      if (!$file) {
+        return $this->respondWithError();
+      }
+      return \Fractal::item($file, new \App\Transformers\ImageTransformer())->responseJson(200);
+    }
 
     /**
      * Store a newly created resource in storage.
@@ -46,9 +51,7 @@ public function show($filename){
             'created_by' => \Auth::user()->id,
             'updated_by' => \Auth::user()->id,
             'filename' => $this->generateRandomString(),
-            'ext' => $original_file->getClientOriginalExtension(),
             'mime_type' => $original_file->getMimeType(),
-            'path' => $this->destination,
             'base64' => $this->make_to_base_64($original_file)
           ];
 
@@ -57,11 +60,8 @@ public function show($filename){
             'point_id' => 'required',
             'original_file' => 'required|image|mimes:jpeg,png,jpg,gif',
             'created_by' => 'required',
-            'filename' => 'required',
-            'ext' => 'required',
-            'path' => 'required',
+            'filename' => 'required'
           ];
-
             // Validate $input with the validation $rules
             $validator = \Validator::make($input, $rules);
             if ($validator->fails()) {
@@ -104,10 +104,9 @@ public function show($filename){
 
 private function make_to_base_64($image){
   $type = pathinfo($image, PATHINFO_EXTENSION);
-$data = file_get_contents($image);
-//$base64 = 'data:image/' . $type . ';base64,' . base64_encode($data);
-
-return base64_encode($data);
+  $data = file_get_contents($image);
+  $base64 = 'data:image/' . $type . ';base64,' . base64_encode($data);
+  return base64_encode($base64);
 }
     /**
      * @param $input

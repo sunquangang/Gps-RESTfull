@@ -25,7 +25,7 @@ class PointTransformer extends TransformerAbstract
      *
      * @var  array
      */
-    protected $defaultIncludes = [];
+    protected $defaultIncludes = ['created_by', 'tags', 'images'];
 
     /**
      * Transform object into a generic array
@@ -35,9 +35,6 @@ class PointTransformer extends TransformerAbstract
      */
     public function transform($point)
     {
-//$header_img = $point->image->first();
-//dd($header_img);
-      //return $point;
         return [
             'id' => $point->id,
             'name' => $point->name,
@@ -45,11 +42,6 @@ class PointTransformer extends TransformerAbstract
             'coordinats' => [
                 'longitude' => $point->longitude,
                 'latitude' => $point->latitude
-            ],
-            'created_by' => $point->user,
-            'images' => $this->loop_images($point->image),
-            'tag' => [
-              $this->loop_tags($point->tags)
             ],
             'meta' => [
                 'status' => [
@@ -65,47 +57,24 @@ class PointTransformer extends TransformerAbstract
         ];
     }
 
-    /**
-    * Transform a collection of Tags
-    * @return array $array An array of tags
-    */
-    private function loop_tags($tags){
-        $array = [];
-        foreach ($tags as $key => $tag) {
-            $array[$key] = [
-                'id' => $tag->id,
-                'tag' => $tag->name,
-                'meta' => [
-                    "links" => [
-                        "rel" => "self",
-                        "slug" => $tag->id,
-                        "uri" => "/api/tags/". $tag->id
-                    ],
-                    "created_at" => $tag->created_at
-                ]
-            ];
-        }
-        return $array;
+    public function includeTags($point)
+    {
+        $tags = $point->tags;
+        return $this->collection($tags, new TagTransformer);
     }
 
-    private function loop_images($images){
-        $array = [];
-        foreach ($images as $key => $image) {
-            $array[$key] = [
-                'filename' => $image->filename,
-                'extension' => $image->ext,
-                'path'=> $image->path . '/' . $image->filename.'.'.$image->ext,
-                'meta' => [
-                    "links" => [
-                        "rel" => "self",
-                        "uri" => "/api/point/". $image->point_id . '/images/' . $image->filename
-                    ],
-                    "created_at" => $image->created_at
-                ]
-            ];
-        }
-        return $array;
+    public function includeImages($point)
+    {
+        $image = $point->image;
+        return $this->collection($image, new ImageTransformer);
     }
+
+    public function includeCreatedBy($point)
+    {
+        $user = $point->user;
+        return $this->item($user, new UserTransformer);
+    }
+
 
 
 

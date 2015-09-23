@@ -9,8 +9,8 @@ class Image extends Model
 {
 	//use SoftDeletingTrait;
     protected $table = 'images';
-	protected $fillable = ['path', 'filename', 'ext', 'mime_type', 'point_id', 'created_by', 'updated_by', 'base64'];
-    protected $hidden =['deleted_at', 'mime_type', 'point_id', 'created_at', 'updated_at', 'created_by', 'updated_by'];
+	protected $fillable = ['point_id', 'filename','mime_type', 'created_by', 'updated_by', 'base64'];
+    protected $hidden =[];
     /**
     *	A image belongs to a Point
     */
