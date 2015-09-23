@@ -22,7 +22,6 @@ class ImageController extends ApiController
 
     public function show($filename){
       $file = Image::where('filename', $filename)->firstOrFail();
-
       if (!$file) {
         return $this->respondWithError();
       }
@@ -76,13 +75,6 @@ class ImageController extends ApiController
                 // Return error response
                 return $this->respondInternalError();
             }
-
-            // Move uploaded file
-            /*if ($this->move_file($input) !== true) {
-                // If move fails
-                // Return error response
-                return $this->respondInternalError('Could not move file');
-            }*/
             // Select latest row from DB
             $resp = $db->orderBy('id', 'DESC')->first();
             // return with Fractal
@@ -102,25 +94,11 @@ class ImageController extends ApiController
     }
 
 
-private function make_to_base_64($image){
-  $type = pathinfo($image, PATHINFO_EXTENSION);
-  $data = file_get_contents($image);
-  $base64 = 'data:image/' . $type . ';base64,' . base64_encode($data);
-  return base64_encode($base64);
-}
-    /**
-     * @param $input
-     * @return bool
-     */
-    private function move_file($input)
-    {
-        $filename = $input['filename'].'.'.$input['ext'];
-        var_dump($input);
-
-        $move = $input['original_file']->move($this->destination, $filename);
-        if (!$move) {
-            return false;
-        }
-        return true;
+    private function make_to_base_64($image){
+      $type = pathinfo($image, PATHINFO_EXTENSION);
+      $data = file_get_contents($image);
+      $base64 = 'data:image/' . $type . ';base64,' . base64_encode($data);
+      return base64_encode($base64);
     }
+
 }

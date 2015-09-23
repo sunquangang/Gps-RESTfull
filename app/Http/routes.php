@@ -25,7 +25,7 @@ Route::get('/', function () { return View::make('welcome'); });
           Route::resource('points', 'PointController',
               array('only' => array('index', 'show', 'store')));
             
-          Route::get('/points/{id}/image/{filename}', 'PointController@image');
+          Route::get('points/{id}/image/{filename}', 'ImageController@show');
 
             Route::resource('tags', 'TagController',
                 array('only' => array('index', 'store', 'show')));

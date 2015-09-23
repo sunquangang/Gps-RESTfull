@@ -1,6 +1,12 @@
-<?php
-
-namespace App\Http\Controllers;
+<?php namespace App\Http\Controllers;
+/**
+ * Point Controller
+ * 
+ * 
+ * @package  Point
+ * @copyright  Carsten Daurehøj <arelstone@gmail.com>
+ * @author  Carsten Daurehøj <arelstone@gmail.com>
+ * */
 
 use App\Point;
 use Fractal;
@@ -9,13 +15,14 @@ class PointController extends ApiController
 {
     /**
      * Display a listing of the resource.
-     * @param $limit int Default 15, but can be overwritten
+     * @param $limit int Default is set to 15, You may with to overwide this.
      * @return Response
+     * @see GET -> api/points
      */
     public function index($limit = 15)
     {
         try {
-            $resp = Point::paginate($limit);;
+            $resp = Point::paginate($limit);
             if (!$resp) {
                 return $this->respondNotFound();
             }
@@ -27,10 +34,10 @@ class PointController extends ApiController
 
      /**
       * Store a newly created resource in storage.
-      *
+      *  !NOTE! That Tags should be a comma seperated list of tag_id's
       * @param  Request  $request
       * @return Response
-      * @todo image upload
+      * @see POST -> api/points
       */
      public function store(Request $request)
      {
@@ -78,6 +85,7 @@ class PointController extends ApiController
      * Display the specified resource.
      * @param int $id
      * @return Response
+     * @see GET -> api/points/{id}
      */
     public function show($id)
     {
