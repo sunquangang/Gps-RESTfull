@@ -12,16 +12,22 @@ class TagTableSeeder extends DatabaseSeeder
      public function run()
      {
 
-
+       $numberOfTags = 15;
        $faker = $this->getFaker();
 
-       for ($i = 0; $i < 5; $i++)
+
+       for ($i = 0; $i < $numberOfTags; $i++)
        {
            $name = $faker->word;
+           $user = $this->getRandomUser();
 
-           \App\Tags::create([
-             "name" => $name
-           ]);
+           $data = [
+             'tag' => $name,
+             'created_by' => $user
+           ];
+           var_dump($data);
+           \App\Tags::create($data);
+           //var_dump($data);
        }
      }
 }

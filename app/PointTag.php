@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class PointTag extends Model
 {
     protected $table = 'point_tag';
-    protected $fillable = ['point_id', 'tag_id'];
+    protected $fillable = ['point_id', 'tag_id', 'created_by'];
     public $timestamps = false;
 
     public function tags()

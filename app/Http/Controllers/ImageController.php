@@ -1,6 +1,4 @@
-<?php
-
-namespace App\Http\Controllers;
+<?php namespace App\Http\Controllers;
 
 use App\Image;
 use Illuminate\Http\Request;
@@ -10,15 +8,15 @@ use Symfony\Component\HttpFoundation\File\File;
 
 /**
  * Class ImageController
+ * On upload images is converted to base64 and the submitted to the database table "images".
+ * 
  * @package App\Http\Controllers
+ * @author Carsten Daurehøj <arelstone@gmail.com>
+ * @license  MIT
+ * @version  0.1.0
  */
 class ImageController extends ApiController
 {
-    /**
-     * @var string
-     */
-    protected $destination = 'uploads';
-
 
     public function show($filename){
       $file = Image::where('filename', $filename)->firstOrFail();

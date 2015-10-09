@@ -53,7 +53,7 @@ class PointController extends ApiController
                  return $this->respondWithError($validator->errors());
              }
 
-            // Tags should be a comma seperated list of tag id's
+            /** @param tags NOTE! Tags should be a comma seperated list of tag id's */
              $tags = explode(',', $request->get('tags'));
 
              $stdObj = new Point();
