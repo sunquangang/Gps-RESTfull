@@ -1,8 +1,8 @@
 <?php namespace App\Http\Controllers;
 /**
  * Point Controller
- * 
- * 
+ *
+ *
  * @package  Point
  * @copyright  Carsten Daurehøj <arelstone@gmail.com>
  * @author  Carsten Daurehøj <arelstone@gmail.com>
@@ -94,6 +94,7 @@ class PointController extends ApiController
             if (!$resp) {
                 return $this->respondNotFound();
             }
+
             return Fractal::item($resp, new \App\Transformers\PointTransformer())->responseJson(200);
         } catch (Exception $e) {
             return $this->respondWithError();

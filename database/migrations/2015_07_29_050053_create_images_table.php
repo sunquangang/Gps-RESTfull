@@ -16,8 +16,8 @@ class CreateImagesTable extends Migration
 
         Schema::create('images', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('path');
-            $table->string('filename');
+            $table->string('filename')->index();
+            $table->string('base64');
             $table->string('mime_type');
             $table->integer('point_id')->unsigned();
             $table->foreign('point_id')->references('id')->on('points');

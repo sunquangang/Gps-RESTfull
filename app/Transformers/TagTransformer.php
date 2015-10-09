@@ -25,7 +25,7 @@ class TagTransformer extends TransformerAbstract
      *
      * @var  array
      */
-    protected $defaultIncludes = [];
+    protected $defaultIncludes = ['created_by'];
 
 
     /**
@@ -37,17 +37,22 @@ class TagTransformer extends TransformerAbstract
     {
         return [
             'id' => $resource->id,
-            'name' => $resource->name,
+            'tag' => $resource->tag,
             'meta' => [
-                'created_at' => $resource->created_at,
-                'last_update' => $resource->updated_at,
                 'links' => [
                     'rel' => 'self',
                     'slug' => $resource->id,
                     'uri' => 'api/tags/'.$resource->id,
-                ]
+                ],
             ]
         ];
+    }
+
+
+    public function includeCreatedBy($point)
+    {
+        $user = $point->user;
+        return $this->item($user, new UserTransformer);
     }
 
 }

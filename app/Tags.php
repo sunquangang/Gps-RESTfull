@@ -21,6 +21,11 @@ class Tags extends Model
          return $this->belongsToMany('App\Point', 'point_tag')->withPivot('id', 'point_id');
      }
 
+     public function user()
+     {
+         return $this->belongsTo('App\User', 'created_by');
+     }
+
 
 
 

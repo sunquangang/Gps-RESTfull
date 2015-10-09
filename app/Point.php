@@ -49,7 +49,7 @@ class Point extends model
     }
 
     /**
-     * A Point has one many through point_tags
+     * A Point has many through point_tags
      * @return \Illuminate\Database\Eloquent\Relations\hasManyThrough
      */
     public function tags()
