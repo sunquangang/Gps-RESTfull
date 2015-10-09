@@ -1,6 +1,8 @@
 <?php namespace App\Http\Controllers;
 
 use App\Image;
+use Auth;
+use Fractal;
 use Illuminate\Http\Request;
 use Input;
 use Storage;
@@ -23,7 +25,7 @@ class ImageController extends ApiController
       if (!$file) {
         return $this->respondWithError();
       }
-      return \Fractal::item($file, new \App\Transformers\ImageTransformer())->responseJson(200);
+        return Fractal::item($file, new \App\Transformers\ImageTransformer())->responseJson(200);
     }
 
     /**
@@ -36,7 +38,7 @@ class ImageController extends ApiController
     public function store(Request $request)
     {
         try {
-          
+
             $original_file = Input::file('file');
             if (!$original_file) {
               return $this->respondWithError('No file is selected');
@@ -46,8 +48,8 @@ class ImageController extends ApiController
             $input = [
             'original_file' => $original_file,
             'point_id' => Input::get('point_id'),
-            'created_by' => \Auth::user()->id,
-            'updated_by' => \Auth::user()->id,
+                'created_by' => Auth::user()->id,
+                'updated_by' => Auth::user()->id,
             'filename' => $this->generateRandomString(),
             'mime_type' => $original_file->getMimeType(),
             'base64' => $this->make_to_base_64($original_file)
@@ -77,7 +79,7 @@ class ImageController extends ApiController
             // Select latest row from DB
             $resp = $db->orderBy('id', 'DESC')->first();
             // return with Fractal
-            return \Fractal::item($resp, new \App\Transformers\ImageTransformer())->responseJson(200);
+            return Fractal::item($resp, new \App\Transformers\ImageTransformer())->responseJson(200);
         } catch (Exception $e) {
             return $this->respondInternalError();
         }
@@ -88,7 +90,7 @@ class ImageController extends ApiController
      */
     private function generateRandomString()
     {
-        $enc = md5(uniqid(\Auth::user()->id, true));
+        $enc = md5(uniqid(Auth::user()->id, true));
         return $enc;
     }
 

@@ -33,6 +33,7 @@ class PointController extends ApiController
     }
 
      /**
+      *
       * Store a newly created resource in storage.
       *  !NOTE! That Tags should be a comma seperated list of tag_id's
       * @param  Request  $request

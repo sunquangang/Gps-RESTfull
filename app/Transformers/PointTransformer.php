@@ -57,18 +57,31 @@ class PointTransformer extends TransformerAbstract
         ];
     }
 
+    /**
+     * @param $point
+     * @return Collection
+     */
     public function includeTags($point)
     {
         $tags = $point->tags;
         return $this->collection($tags, new TagTransformer);
     }
 
+
+    /**
+     * @param $point
+     * @return Collection
+     */
     public function includeImages($point)
     {
         $image = $point->image;
         return $this->collection($image, new ImageTransformer);
     }
 
+    /**
+     * @param $point
+     * @return Item
+     */
     public function includeCreatedBy($point)
     {
         $user = $point->user;

@@ -6,9 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class PointTag extends Model
 {
+    public $timestamps = false;
     protected $table = 'point_tag';
     protected $fillable = ['point_id', 'tags_id', 'created_by'];
-    public $timestamps = false;
 
     public function tags()
     {
@@ -21,3 +21,4 @@ class PointTag extends Model
     }
 
 }
+

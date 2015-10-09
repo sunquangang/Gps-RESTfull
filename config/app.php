@@ -151,6 +151,7 @@ return [
          Barryvdh\Debugbar\ServiceProvider::class,
          Tymon\JWTAuth\Providers\JWTAuthServiceProvider::class,
 
+
     ],
 
     /*
@@ -200,8 +201,8 @@ return [
         'View'      => Illuminate\Support\Facades\View::class,
 
         'Fractal'   => Cyvelnet\Laravel5Fractal\Facades\Fractal::class,
-        'Debugbar' => Barryvdh\Debugbar\Facade::class,
-        
+        //'Debugbar' => Barryvdh\Debugbar\Facade::class,
+
         'JWTAuth' => Tymon\JWTAuth\Facades\JWTAuth::class,
         'JWTFactory' => Tymon\JWTAuth\Facades\JWTFactory::class
 
