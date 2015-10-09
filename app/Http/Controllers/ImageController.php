@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\File\File;
 /**
  * Class ImageController
  * On upload images is converted to base64 and the submitted to the database table "images".
- * 
+ *
  * @package App\Http\Controllers
  * @author Carsten Daurehøj <arelstone@gmail.com>
  * @license  MIT
@@ -36,6 +36,7 @@ class ImageController extends ApiController
     public function store(Request $request)
     {
         try {
+          
             $original_file = Input::file('file');
             if (!$original_file) {
               return $this->respondWithError('No file is selected');

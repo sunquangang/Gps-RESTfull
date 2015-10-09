@@ -15,7 +15,7 @@ class PointController extends ApiController
 {
     /**
      * Display a listing of the resource.
-     * @param $limit int Default is set to 15, You may with to overwide this.
+     * @param INT $limit Default is set to 15, You may with to overwide this.
      * @return Response
      * @see GET -> api/points
      */
@@ -101,44 +101,5 @@ class PointController extends ApiController
         }
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     * @todo
-     * @param int $id
-     * @return Response
-     * @todo
-     */
-    public function edit($id)
-    {
-        //
-        return false;
-    }
-
-    /**
-     * Update the specified resource in storage.
-     * @param Request $request
-     * @param int     $id
-     * @return Response
-     * @todo
-     */
-    public function update(Request $request, $id)
-    {
-        //
-        return false;
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param int $id
-     *
-     * @return Response
-     * @todo
-     */
-    public function destroy($id)
-    {
-        //
-        //
-        return false;
-    }
+    
 }

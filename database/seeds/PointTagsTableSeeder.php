@@ -21,10 +21,10 @@ class PointTagsTableSeeder extends DatabaseSeeder
             #echo 'i: ' . $i. ' ==';
             $arr = [
               'point_id' => $this->random_point(),
-              'tag_id' => $this->random_tag(),
+              'tags_id' => $this->random_tag(),
               'created_by' => $this->getRandomUser(),
             ];
-            var_dump($arr);
+            //dd($arr);
             /*var_dump('loop nr: ' . $i) . '\n';
             var_dump($arr);*/
             \App\PointTag::create($arr);

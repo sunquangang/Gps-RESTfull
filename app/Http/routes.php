@@ -19,12 +19,13 @@ Route::get('/', function () { return View::make('welcome'); });
 
           Route::get('/', function () { return \Auth::user(); });
 
-          Route::resource('upload', 'ImageController',
-              array('only' => array('store', 'show')));
-          
+          Route::post('upload/{id}', 'ImageController@store');
+          Route::get('upload/{id}', 'ImageController@show');
+
+
           Route::resource('points', 'PointController',
               array('only' => array('index', 'show', 'store')));
-            
+
           Route::get('points/{id}/image/{filename}', 'ImageController@show');
 
             Route::resource('tags', 'TagController',
