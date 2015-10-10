@@ -16,7 +16,7 @@ Images are stored in the database as base_64 encoded strings
 
 ### Endpoints
 
-#### Points
+**Points**
  
  `GET -> api/points` - Get all points
 
@@ -27,7 +27,7 @@ Images are stored in the database as base_64 encoded strings
  `PUT -> api/points/{id}` - Update name and description of a point.
 
 
- #### Tags
+ **Tags**
  
  `GET -> api/tags` - Get all tags
 
@@ -36,7 +36,7 @@ Images are stored in the database as base_64 encoded strings
  `POST -> api/tags` - Create a tag
  
 
- #### Images
+ **Upload**
  
  `GET -> api/upload/{filename}` - Get a image by its filename (a random generated hash)
 
