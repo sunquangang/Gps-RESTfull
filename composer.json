@@ -38,10 +38,11 @@
             "php artisan optimize"
         ],
         "pre-update-cmd": [
-            "php artisan clear-compiled"
+            "php artisan clear-compiled"d
         ],
         "post-update-cmd": [
-            "php artisan optimize"
+            "php artisan optimize",
+            "php artisan route:list > docs/routes.md"
         ],
         "post-root-package-install": [
             "php -r \"copy('.env.example', '.env');\""
