@@ -5,11 +5,13 @@ The purpose of this Restfull api is to be a backend for an GPS application where
 
 Images are stored in the database as base_64 encoded strings
 
+This API is build on the [Laravel 5.1 framework](http://laravel.com/docs/5.1)
+
 ### Installation
 - Clone this repository
 - Change the '.env' file to your need
 - `composer install`
-- `cp .env.example > .env`
+- `cp .env.example > .env` and edit `.env` to your specific needs
 - `php artisan migrate`
 - `php artisan db:seed`
 - You are ready to go
@@ -41,3 +43,7 @@ Images are stored in the database as base_64 encoded strings
  `GET -> api/upload/{filename}` - Get a image by its filename (a random generated hash)
 
  `POST -> api/upload` - Upload image 
+
+
+### License
+[MIT License](https://github.com/arelstone/Gps-App-Restful-API/edit/master/license.md)
