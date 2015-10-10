@@ -9,7 +9,7 @@ Images are stored in the database as base_64 encoded strings
 - Clone this repository
 - Change the '.env' file to your need
 - `composer install`
-- 'cp .env.example > .env'
+- `cp .env.example > .env`
 - `php artisan migrate`
 - `php artisan db:seed`
 - You are ready to go
@@ -26,6 +26,7 @@ Images are stored in the database as base_64 encoded strings
 
  `PUT -> api/points/{id}` - Update name and description of a point.
 
+
  #### Tags
  
  `GET -> api/tags` - Get all tags
@@ -34,6 +35,7 @@ Images are stored in the database as base_64 encoded strings
 
  `POST -> api/tags` - Create a tag
  
+
  #### Images
  
  `GET -> api/upload/{filename}` - Get a image by its filename (a random generated hash)
