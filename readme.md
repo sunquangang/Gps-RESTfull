@@ -46,4 +46,4 @@ This API is build on the [Laravel 5.1 framework](http://laravel.com/docs/5.1)
 
 
 ### License
-[MIT License](https://github.com/arelstone/Gps-App-Restful-API/edit/master/license.md)
+[MIT License](https://github.com/arelstone/Gps-App-Restful-API/blob/master/license.md)
