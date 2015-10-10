@@ -11,7 +11,7 @@ use File;
 
 /**
  * Class ImageController
- * On upload images is converted to base64 and the submitted to the database table "images".
+ * Handled upload of a image and converting it to base_64 format
  *
  * @package App\Http\Controllers
  * @author Carsten Daurehøj <arelstone@gmail.com>
@@ -22,6 +22,7 @@ class ImageController extends ApiController
 {
 
     /**
+     * Show a image based on on the filename
      * @param $filename
      * @return mixed
      */
@@ -45,10 +46,9 @@ class ImageController extends ApiController
     {
         try {
             $file = $request->file('photo');
-
             // Make the validation rules
             $rules = [
-                'photo' => 'required|image',
+                'photo' => 'required|image'
             ];
             // Validate $input with the validation $rules
             $validator = \Validator::make([$file], $rules);
@@ -74,16 +74,18 @@ class ImageController extends ApiController
     }
 
     /**
+     * Generate a random string based on the user that is logged in and microtime
      * @return string
      */
     private function generate_random_string()
     {
-        $enc = md5(uniqid(Auth::user()->id, true));
+        $enc = md5(uniqid($this->user()->id, true));
         return $enc;
     }
 
 
     /**
+     * Convert the uploaded image to base_64
      * @param $image
      * @return string
      */
