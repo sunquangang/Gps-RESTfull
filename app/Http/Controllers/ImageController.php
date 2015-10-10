@@ -46,6 +46,7 @@ class ImageController extends ApiController
     {
         try {
             $file = $request->file('photo');
+            dump($request->all());
             // Make the validation rules
             $rules = [
                 'photo' => 'required|image'

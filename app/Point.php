@@ -3,7 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-//use Illuminate\Database\Eloquent\SoftDeletingTrait;
+#use Illuminate\Database\Eloquent\SoftDeletingTrait;
 
 /**
  * Class Point
@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\Model;
 class Point extends model
 {
 
-	//use softdeletingtrait;
+	#use SoftDeletingTrait;
     /**
      *  Table
      */
