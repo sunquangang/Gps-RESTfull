@@ -3,11 +3,11 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-//use Illuminate\Database\Eloquent\SoftDeletingTrait;
+use Illuminate\Database\Eloquent\SoftDeletingTrait;
 
 class Image extends Model
 {
-	//use SoftDeletingTrait;
+    use SoftDeletingTrait;
     protected $table = 'images';
 	protected $fillable = ['point_id', 'filename','mime_type', 'created_by', 'updated_by', 'base64'];
     protected $hidden =[];
