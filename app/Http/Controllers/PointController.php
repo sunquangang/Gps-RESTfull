@@ -2,22 +2,27 @@
 /**
  * Point Controller
  *
- *
  * @package  Point
  * @copyright  Carsten Daurehøj <arelstone@gmail.com>
  * @author  Carsten Daurehøj <arelstone@gmail.com>
  * */
 
 use App\Point;
+use App\PointTag;
+use App\Transformers\PointTransformer;
 use Fractal;
 use Illuminate\Http\Request;
+
+/**
+ * Class PointController
+ * @package App\Http\Controllers
+ */
 class PointController extends ApiController
 {
     /**
      * Display a listing of the resource.
      * @param INT $limit Default is set to 15, You may with to overwide this.
      * @return Response
-     * @see GET -> api/points
      */
     public function index($limit = 15)
     {
@@ -26,19 +31,18 @@ class PointController extends ApiController
             if (!$resp) {
                 return $this->respondNotFound();
             }
-            return Fractal::collection($resp, new \App\Transformers\PointTransformer())->responseJson(200);
+            return Fractal::collection($resp, new PointTransformer())->responseJson(200);
         } catch (Exception $e) {
             return $this->respondWithError();
         }
     }
 
-     /**
+    /**
       *
       * Store a newly created resource in storage.
       *  !NOTE! That Tags should be a comma seperated list of tag_id's
       * @param  Request  $request
       * @return Response
-      * @see POST -> api/points
       */
      public function store(Request $request)
      {
@@ -68,19 +72,20 @@ class PointController extends ApiController
                  return $this->respondWithError();
              }
              foreach ($tags as $t) {
-                 $tag = new \App\PointTag();
+                 $tag = new PointTag();
                  $tag->point_id = $stdObj->id;
-
+                 $tag->created_by = \Auth::user()->id;
                  $tag->tags_id = $t;
                  if (!$tag->save()) {
                      return $this->respondWithError('Could not add tag ('.$t.')');
                  }
              }
-             return Fractal::item($stdObj, new \App\Transformers\PointTransformer())->responseJson(200);
+             return Fractal::item($stdObj, new PointTransformer())->responseJson(200);
          } catch (Exception $e) {
              return $this->respondInternalError();
          }
      }
+
 
     /**
      * Display the specified resource.
@@ -96,11 +101,11 @@ class PointController extends ApiController
                 return $this->respondNotFound();
             }
 
-            return Fractal::item($resp, new \App\Transformers\PointTransformer())->responseJson(200);
+            return Fractal::item($resp, new PointTransformer())->responseJson(200);
         } catch (Exception $e) {
             return $this->respondWithError();
         }
     }
 
-    
+
 }

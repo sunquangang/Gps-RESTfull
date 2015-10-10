@@ -9,34 +9,27 @@ use Auth;
  */
 class ApiController extends Controller {
 
+	protected $user;
+
 	/**
 	 * Set default status code
 	 * @var int default 200
      */
 	protected $statusCode = 200;
 
-	/**
-	 * Get the user object
-	 * @return mixed
-	 */
-	public function user()
-	{
-		return Auth::user();
-	}
+    /**
+     * ApiController constructor.
+     * @internal param $user
+     */
+    public function __construct()
+    {
+        if (Auth::check() == false) {
+            return $this->respondUnauthorized();
+        }
+    }
 
-	/**
-	 * Respond with Bad Request
-	 * Send response with message and set status code to 501
-	 *
-	 * @param string $message
-	 * @return mixed
-	 */
-	public function respondBadRequest($message = 'Bad Request!')
-	{
-		return $this->setStatusCode(400)->respondWithError($message);
-	}
 
-	/**
+    /**
 	 * Responde with With error
 	 * Send response with message and set status code to 500
 	 *
@@ -98,7 +91,21 @@ class ApiController extends Controller {
 	 */
 	public function respondUnauthorized($message = 'Unauthorized! Please login!')
 	{
+
 		return $this->setStatusCode(401)->respondWithError($message);
+	}
+
+
+	/**
+	 * Respond with Bad Request
+	 * Send response with message and set status code to 501
+	 *
+	 * @param string $message
+	 * @return mixed
+	 */
+	public function respondBadRequest($message = 'Bad Request!')
+	{
+		return $this->setStatusCode(400)->respondWithError($message);
 	}
 
 	/**
@@ -135,5 +142,21 @@ class ApiController extends Controller {
 	public function respondInternalError($message = 'Internal Error!')
 	{
 		return $this->setStatusCode(500)->respondWithError($message);
+	}
+
+
+	public function getUser()
+	{
+
+        if (Auth::check() == false){
+            return $this->respondUnauthorized();
+        }
+		return $this->user;
+	}
+
+	public function setUser($user)
+	{
+		$this->user = $user;
+		return $this;
 	}
 }

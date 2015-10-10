@@ -1,7 +1,7 @@
 ## Restfull Api for handling GPS coordinates and Images
 
 ### Purpose
-The purpose of this Restfull api is to be a backend for an GPS application where you can create a `Point`, `Tag` the point and upload images.
+The purpose of this Restfull api is to be a backend for an GPS application where you can create a `Point`, `Tag the point` and upload `images`.
 
 Images are stored in the database as base_64 encoded strings
 

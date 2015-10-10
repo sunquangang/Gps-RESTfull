@@ -54,6 +54,8 @@ class TagController extends ApiController
 
           $stdObj = new Tags;
           $stdObj->name = $request->get('name');
+          $stdObj->created_by = \Auth::user();
+          dd($stdObj);
           if (!$stdObj->save()){
               return $this->respondWithError();
           }

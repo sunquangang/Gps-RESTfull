@@ -1,13 +1,13 @@
 <?php namespace App\Http\Controllers;
 
 use App\Image;
+use App\Transformers;
 use Auth;
+use File;
 use Fractal;
 use Illuminate\Http\Request;
 use Input;
 use Storage;
-use \App\Transformers;
-use File;
 
 /**
  * Class ImageController
@@ -20,6 +20,7 @@ use File;
  */
 class ImageController extends ApiController
 {
+
 
     /**
      * Show a image based on on the filename
@@ -45,22 +46,21 @@ class ImageController extends ApiController
     public function store(Request $request)
     {
         try {
-            $file = $request->file('photo');
-            dump($request->all());
-            // Make the validation rules
-            $rules = [
-                'photo' => 'required|image'
-            ];
-            // Validate $input with the validation $rules
-            $validator = \Validator::make([$file], $rules);
-            if ($validator->fails()) {
-                // If validation fails
-                // Return error response
-                return $this->respondWithError($validator->errors());
+            if (!$request->hasFile('photo')) {
+                return $this->respondWithError('No photo is selected');
             }
+            $file = $request->file('photo');
             // Create Eloquent object
             $image = new Image();
-            if (!$image->create($input)) {
+            $image->point_id = $request->id;
+            $image->filename = $this->generate_random_string();
+            $image->mime_type = $file->getClientMimeType();
+            $image->base_64 = $this->convert_to_base_64($file);
+            $image->created_by = Auth::user()->id;
+            $image->updated_by = Auth::user()->id;
+
+
+            if (!$image->save()) {
                 // If creation fails
                 // Return error response
                 return $this->respondInternalError();
@@ -68,19 +68,20 @@ class ImageController extends ApiController
             // Select latest row from DB
             $resp = $image->orderBy('id', 'DESC')->first();
             // return with Fractal
-            return Fractal::item($resp, new ImageTransformer())->responseJson(200);
+            return Fractal::item($resp, new \App\Transformers\ImageTransformer())->responseJson(200);
         } catch (Exception $e) {
             return $this->respondInternalError();
         }
     }
 
     /**
-     * Generate a random string based on the user that is logged in and microtime
+     * Generate a random string based on microtime
      * @return string
      */
     private function generate_random_string()
     {
-        $enc = md5(uniqid($this->user()->id, true));
+        $enc = md5(uniqid('', true));
+        //dump($enc);
         return $enc;
     }
 
@@ -94,8 +95,8 @@ class ImageController extends ApiController
     {
         $type = pathinfo($image, PATHINFO_EXTENSION);
         $data = file_get_contents($image);
-        $base64 = 'data:image/' . $type . ';base64,' . base64_encode($data);
-        return $base64;
+        //$base64 = 'data:image/' . $type . ';base64,' . base64_encode($data);
+        return base64_encode($data);
     }
 
 }

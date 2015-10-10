@@ -33,7 +33,7 @@ class ImageTransformer extends TransformerAbstract
         return [
             'filename' => $resource->filename,
             'mime_type' => $resource->mime_type,
-            'data' => 'data:'.$resource->mime_type.';base64,'.$resource->base64, //$resource->base64,
+            'image' => '<img src="data:image/' . $resource->mime_type . ';base64,' . base64_encode($resource->base_64) . '">',
             'raw' => $resource->base64,
         ];
     }
