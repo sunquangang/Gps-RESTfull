@@ -19,14 +19,12 @@ class PointsTableSeeder extends DatabaseSeeder
              $description = $faker->paragraph($nbSentences = $faker->randomDigitNotNull);
              $longitude = $faker->longitude;
              $latitude = $faker->latitude;
-             $coordinates = $longitude.','.$latitude;
 
              $arr = [
             'name' => $name,
             'description' => $description,
             'longitude' => $longitude,
             'latitude' => $latitude,
-            'coordinates' => $coordinates,
             'created_by' => $user,
             'updated_by' => $user
           ];

@@ -1,5 +1,7 @@
 <?php  namespace App\Http\Controllers;
 
+use Auth;
+
 
 /**
  * Class ApiController
@@ -12,6 +14,58 @@ class ApiController extends Controller {
 	 * @var int default 200
      */
 	protected $statusCode = 200;
+
+	/**
+	 * Get the user object
+	 * @return mixed
+	 */
+	public function user()
+	{
+		return Auth::user();
+	}
+
+	/**
+	 * Respond with Bad Request
+	 * Send response with message and set status code to 501
+	 *
+	 * @param string $message
+	 * @return mixed
+	 */
+	public function respondBadRequest($message = 'Bad Request!')
+	{
+		return $this->setStatusCode(400)->respondWithError($message);
+	}
+
+	/**
+	 * Responde with With error
+	 * Send response with message and set status code to 500
+	 *
+	 * @param $message
+	 * @return mixed
+	 */
+	public function respondWithError($message)
+	{
+		return $this->respond([
+				'error' => [
+						'message' => $message,
+				]
+		]);
+
+	}
+
+	/**
+	 * Send response as JSON
+	 *
+	 * @param $data
+	 * @param array $headers
+	 * @return mixed JSON object with data, status code and headers
+	 */
+	public function respond($data, $headers = [])
+	{
+
+
+		return \Response::json($data, $this->getStatusCode(), $headers);
+	}
 
 	/**
 	 * Get Status Code
@@ -36,19 +90,7 @@ class ApiController extends Controller {
 	}
 
 	/**
-	 * Responde with Bad Request
-	 * Send response with message and set status code to 501
-	 *
-	 * @param string $message
-	 * @return mixed
-     */
-	public function respondBadRequest($message = 'Bad Request!')
-	{
-		return $this->setStatusCode(400)->respondWithError($message);
-	}
-
-	/**
-	 * Responde with Request Unauthorized
+	 * Respond with Request Unauthorized
 	 * Send response with message and set status code to 401
 	 *
 	 * @param string $message
@@ -60,7 +102,7 @@ class ApiController extends Controller {
 	}
 
 	/**
-	 * Responde with Request Forbidden
+	 * Respond with Request Forbidden
 	 * Send response with message and set status code to 403
 	 *
 	 * @param string $message
@@ -72,7 +114,7 @@ class ApiController extends Controller {
 	}
 
 	/**
-	 * Responde with Not Found
+	 * Respond with Not Found
 	 * Send response with message and set status code to 404
 	 *
 	 * @param string $message
@@ -83,9 +125,8 @@ class ApiController extends Controller {
 		return $this->setStatusCode(404)->respondWithError($message);
 	}
 
-
 	/**
-	 * Responde with Internal Error
+	 * Respond with Internal Error
 	 * Send response with message and set status code to 500
 	 *
 	 * @param string $message
@@ -94,41 +135,5 @@ class ApiController extends Controller {
 	public function respondInternalError($message = 'Internal Error!')
 	{
 		return $this->setStatusCode(500)->respondWithError($message);
-	}
-
-
-
-
-
-	/**
-	 * Responde with With error
-	 * Send response with message and set status code to 500
-	 *
-	 * @param $message
-	 * @return mixed
-     */
-	public function respondWithError($message)
-	{
-		return $this->respond([
-			'error' => [
-				'message' => $message,
-			]
-		]);
-
-	}
-
-	/**
-	 * Send response as JSON
-	 *
-	 * @param $data
-	 * @param array $headers
-	 * @return mixed JSON object with data, status code and headers
-     */
-	public function respond($data, $headers = [])
-	{
-
-
-
-		return \Response::json($data, $this->getStatusCode(), $headers);
 	}
 }

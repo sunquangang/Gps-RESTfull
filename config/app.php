@@ -95,7 +95,7 @@ return [
     |
     */
 
-    'log' => 'single',
+    'log' => 'daily',
 
     /*
     |--------------------------------------------------------------------------
@@ -148,7 +148,7 @@ return [
         Cyvelnet\Laravel5Fractal\Laravel5FractalServiceProvider::class,
         //Tymon\JWTAuth\Providers\JWTAuthServiceProvider::class
          Barryvdh\Cors\ServiceProvider::class,
-         Barryvdh\Debugbar\ServiceProvider::class,
+        #Barryvdh\Debugbar\ServiceProvider::class,
          Tymon\JWTAuth\Providers\JWTAuthServiceProvider::class,
 
 

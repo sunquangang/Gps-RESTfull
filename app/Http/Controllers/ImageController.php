@@ -6,7 +6,8 @@ use Fractal;
 use Illuminate\Http\Request;
 use Input;
 use Storage;
-use Symfony\Component\HttpFoundation\File\File;
+use \App\Transformers;
+use File;
 
 /**
  * Class ImageController
@@ -20,11 +21,16 @@ use Symfony\Component\HttpFoundation\File\File;
 class ImageController extends ApiController
 {
 
-    public function show($filename){
-      $file = Image::where('filename', $filename)->firstOrFail();
-      if (!$file) {
-        return $this->respondWithError();
-      }
+    /**
+     * @param $filename
+     * @return mixed
+     */
+    public function show($filename)
+    {
+        $file = Image::where('filename', $filename)->firstOrFail();
+        if (!$file) {
+            return $this->respondWithError();
+        }
         return Fractal::item($file, new \App\Transformers\ImageTransformer())->responseJson(200);
     }
 
@@ -38,48 +44,30 @@ class ImageController extends ApiController
     public function store(Request $request)
     {
         try {
+            $file = $request->file('photo');
 
-            $original_file = Input::file('file');
-            if (!$original_file) {
-              return $this->respondWithError('No file is selected');
-            }
-
-            // Define the input
-            $input = [
-            'original_file' => $original_file,
-            'point_id' => Input::get('point_id'),
-                'created_by' => Auth::user()->id,
-                'updated_by' => Auth::user()->id,
-            'filename' => $this->generateRandomString(),
-            'mime_type' => $original_file->getMimeType(),
-            'base64' => $this->make_to_base_64($original_file)
-          ];
-
-          // Make the validation rules
-          $rules = [
-            'point_id' => 'required',
-            'original_file' => 'required|image|mimes:jpeg,png,jpg,gif',
-            'created_by' => 'required',
-            'filename' => 'required'
-          ];
+            // Make the validation rules
+            $rules = [
+                'photo' => 'required|image',
+            ];
             // Validate $input with the validation $rules
-            $validator = \Validator::make($input, $rules);
+            $validator = \Validator::make([$file], $rules);
             if ($validator->fails()) {
                 // If validation fails
                 // Return error response
                 return $this->respondWithError($validator->errors());
             }
-            // Create Elequent object
-            $db = new Image();
-            if (!$db->create($input)) {
+            // Create Eloquent object
+            $image = new Image();
+            if (!$image->create($input)) {
                 // If creation fails
                 // Return error response
                 return $this->respondInternalError();
             }
             // Select latest row from DB
-            $resp = $db->orderBy('id', 'DESC')->first();
+            $resp = $image->orderBy('id', 'DESC')->first();
             // return with Fractal
-            return Fractal::item($resp, new \App\Transformers\ImageTransformer())->responseJson(200);
+            return Fractal::item($resp, new ImageTransformer())->responseJson(200);
         } catch (Exception $e) {
             return $this->respondInternalError();
         }
@@ -88,18 +76,23 @@ class ImageController extends ApiController
     /**
      * @return string
      */
-    private function generateRandomString()
+    private function generate_random_string()
     {
         $enc = md5(uniqid(Auth::user()->id, true));
         return $enc;
     }
 
 
-    private function make_to_base_64($image){
-      $type = pathinfo($image, PATHINFO_EXTENSION);
-      $data = file_get_contents($image);
-      $base64 = 'data:image/' . $type . ';base64,' . base64_encode($data);
-      return base64_encode($base64);
+    /**
+     * @param $image
+     * @return string
+     */
+    private function convert_to_base_64($image)
+    {
+        $type = pathinfo($image, PATHINFO_EXTENSION);
+        $data = file_get_contents($image);
+        $base64 = 'data:image/' . $type . ';base64,' . base64_encode($data);
+        return $base64;
     }
 
 }
