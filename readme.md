@@ -22,11 +22,23 @@ This API is build on the [Laravel 5.1 framework](http://laravel.com/docs/5.1)
  
  `GET -> api/points` - Get all points
 
- `GET -> api/points/{id}` - Get point by ID
+ **Avalible URL params:** 
+ * `limit` default set to 10, 
+ * `popular` Default set to false. If set `TRUE` the response will be ordered by the point with most hits **@todo**
+
+
+ `GET -> api/points/{id}` - Get point by ID.
+ 
+ Fires an Event that updated the `PointHits table` **@todo** 
 
  `POST -> api/points` - Create a point
+ 
+ `POST -> api/point/{id}/upload` - Add a image to a point
+ 
+ 
 
- `PUT -> api/points/{id}` - Update name and description of a point.
+**@todo**
+ `PUT -> api/points/{id}` - Update name and description of a point. - Only the auther will be able to update a entry
 
 
  **Tags**
@@ -41,8 +53,6 @@ This API is build on the [Laravel 5.1 framework](http://laravel.com/docs/5.1)
  **Upload**
  
  `GET -> api/upload/{filename}` - Get a image by its filename (a random generated hash)
-
- `POST -> api/upload` - Upload image 
 
 
 ### License
