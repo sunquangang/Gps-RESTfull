@@ -53,6 +53,7 @@ class PointTransformer extends TransformerAbstract
                     'uri' => '/api/points/'.$point->id,
                 ],
                 'created_at' => $point->created_at,
+                'hits' => count($point->hits)
             ]
         ];
     }

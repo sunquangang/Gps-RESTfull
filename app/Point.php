@@ -57,4 +57,9 @@ class Point extends model
         return $this->belongsToMany('App\Tags', 'point_tag')->withPivot('id', 'tags_id');
     }
 
+    public function hits()
+    {
+        return $this->hasMany('App\PointHit', 'point_id');
+    }
+
 }
