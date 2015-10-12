@@ -31,7 +31,6 @@ class UserTransformer extends TransformerAbstract
     public function transform($resource)
     {
         //return new \League\Fractal\Resource\Collection($resource,new ResourceTransformer);
-
         return [
             'data' => [
                 'id' => $resource->id,

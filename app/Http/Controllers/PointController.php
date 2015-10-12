@@ -43,38 +43,7 @@ class PointController extends ApiController
 
     }
 
-    /**
-     * @return mixed
-     */
-    public function getPopular()
-    {
-        return $this->popular;
-    }
-
-    /**
-     * @param mixed $popular
-     */
-    public function setPopular($popular)
-    {
-        $this->popular = $popular;
-    }
-
-
-    /**
-     * @return mixed
-     */
-    public function getLimit()
-    {
-        return $this->limit;
-    }
-
-    /**
-     * @param mixed $limit
-     */
-    public function setLimit($limit)
-    {
-        $this->limit = $limit;
-    }
+    
 
 
     /**
@@ -85,9 +54,12 @@ class PointController extends ApiController
     public function index(Request $request)
     {
         try {
-
-            $resp = Point::with('hits')->paginate($request->limit);
-
+            if ($this->getPopular()){
+                $resp = $this->popular();
+            } else {
+                $resp = Point::paginate($request->limit);
+            }
+dump($resp);
             if (!$resp) {
                 return $this->respondNotFound();
             }
@@ -95,6 +67,11 @@ class PointController extends ApiController
         } catch (Exception $e) {
             return $this->respondWithError();
         }
+    }
+
+    public function popular(){
+        $points = \App\PointHitsView::with('point')->paginate($this->getLimit());
+        return $points;
     }
 
     /**
@@ -165,6 +142,39 @@ class PointController extends ApiController
         } catch (Exception $e) {
             return $this->respondWithError();
         }
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPopular()
+    {
+        return $this->popular;
+    }
+
+    /**
+     * @param mixed $popular
+     */
+    public function setPopular($popular)
+    {
+        $this->popular = $popular;
+    }
+
+
+    /**
+     * @return mixed
+     */
+    public function getLimit()
+    {
+        return $this->limit;
+    }
+
+    /**
+     * @param mixed $limit
+     */
+    public function setLimit($limit)
+    {
+        $this->limit = $limit;
     }
 
 
