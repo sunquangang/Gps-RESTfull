@@ -12,11 +12,11 @@ class TagTableSeeder extends DatabaseSeeder
      public function run()
      {
 
-       $numberOfTags = 15;
+       $loop = 15;
        $faker = $this->getFaker();
 
 
-       for ($i = 0; $i < $numberOfTags; $i++)
+       for ($i = 0; $i < $loop; $i++)
        {
            $name = $faker->word;
            $user = $this->getRandomUser();
@@ -25,9 +25,9 @@ class TagTableSeeder extends DatabaseSeeder
              'tag' => $name,
              'created_by' => $user
            ];
-           var_dump($data);
+
            \App\Tags::create($data);
-           //var_dump($data);
+           print 'Done '.$loop.' entries was created';
        }
      }
 }

@@ -28,6 +28,7 @@ class PointTagsTableSeeder extends DatabaseSeeder
             /*var_dump('loop nr: ' . $i) . '\n';
             var_dump($arr);*/
             \App\PointTag::create($arr);
+            print 'Done '.$this->records.' entries was created';
           }
         }
     }

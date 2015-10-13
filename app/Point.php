@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Model;
  * Class Point
  * @package App
  */
-class Point extends model
+class Point extends Model
 {
 
 	#use SoftDeletingTrait;
@@ -22,7 +22,7 @@ class Point extends model
      * Fillable fields
      * @var array
      */
-    protected $fillable = ['id', 'name','description','latitude', 'longitude', 'created_by', 'updated_by'];
+    protected $fillable = ['id', 'name','description','latitude', 'longitude', 'country', 'created_by', 'updated_by'];
 
     /**
      * Hidden fields

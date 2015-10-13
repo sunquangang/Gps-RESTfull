@@ -8,7 +8,7 @@ class UserTableSeeder extends DatabaseSeeder
      */
     public function run()
     {
-        $loop = 100;
+        $loop = 5;
         $faker = $this->getFaker();
 
         $admin = [
@@ -30,8 +30,9 @@ class UserTableSeeder extends DatabaseSeeder
               'password' => Hash::make('password'),
               'remember_token' => md5(uniqid(mt_rand(), true)),
             ];
-            
+
             \App\User::create($data);
+            print 'Done '.$loop.' entries was created';
         }
     }
 }

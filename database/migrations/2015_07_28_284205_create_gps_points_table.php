@@ -19,6 +19,7 @@ class CreateGpsPointsTable extends Migration
             $table->text('description');
             $table->double('latitude', 15, 8);
             $table->double('longitude', 15, 8);
+            $table->string('country', 75);
             $table->integer('created_by')->unsigned();
             $table->foreign('created_by')->references('id')->on('users');
             $table->integer('updated_by')->unsigned();

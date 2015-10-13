@@ -14,6 +14,8 @@ use App\Transformers\PointTransformer;
 use Fractal;
 use Illuminate\Http\Request;
 use Mockery\CountValidator\Exception;
+use League\Geotools\Coordinate\Ellipsoid;
+use Toin0u\Geotools\Facade\Geotools;
 
 /**
  * Class PointController
@@ -35,16 +37,12 @@ class PointController extends ApiController
         } else {
             $this->setLimit($request->get('limit'));
         }
-
         if ($request->get('popular') == 'true') {
             $this->setPopular(true);
         }
 
 
     }
-
-
-
 
     /**
      * Display a listing of the resource.
@@ -74,7 +72,6 @@ class PointController extends ApiController
     }
 
     /**
-     *
      * Store a newly created resource in storage.
      *  !NOTE! That Tags should be a comma seperated list of tag_id's
      * @param  Request $request
@@ -94,7 +91,7 @@ class PointController extends ApiController
                 return $this->respondWithError($validator->errors());
             }
 
-            /** @param tags NOTE! Tags should be a comma seperated list of tag id's */
+            /** @param tags !NOTE! Tags should be a comma seperated list of tag id's */
             $tags = explode(',', $request->get('tags'));
 
             $stdObj = new Point();
@@ -137,6 +134,7 @@ class PointController extends ApiController
                 return $this->respondNotFound();
             }
             $this->update_point_hits_table($id);
+
             return Fractal::item($resp, new PointTransformer())->responseJson(200);
         } catch (Exception $e) {
             return $this->respondWithError();

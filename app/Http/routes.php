@@ -19,7 +19,8 @@ Route::group(['middleware' => 'auth.basic'], function () {
     Route::group(['middleware' => 'cors'], function () {
         Route::group(['prefix' => 'api'], function () {
 
-            Route::get('/', 'ApiController@getUser');
+          Route::get('/', 'ApiController@getUser');
+          Route::get('find', 'PointController@findCountryByCoordinats');
 
             Route::post('points/{id}/upload', 'ImageController@store');
             Route::get('upload/{filename}', 'ImageController@show');

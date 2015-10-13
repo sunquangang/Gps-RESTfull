@@ -53,7 +53,7 @@ class DatabaseSeeder extends Seeder
 
     public function getRandomUser()
     {
-        $users = \App\User::all();
-        return array_rand($users->toArray(), 1);
+        return \App\User::all()->random(1)->id;
+
     }
 }

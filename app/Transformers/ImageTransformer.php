@@ -28,11 +28,12 @@ class ImageTransformer extends TransformerAbstract
      */
     public function transform($resource)
     {
+
         return [
+
             'filename' => $resource->filename,
             'mime_type' => $resource->mime_type,
-            //'raw' => $resource->base_64,
-            'source' => 'data:image/'.$resource->mime_type.';base64,'.base64_encode($resource->base_64),
+            'raw' => $resource->base_64,
             'meta' => [
               'created_at' => $resource->created_at,
               'links' => [
