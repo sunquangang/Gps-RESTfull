@@ -25,7 +25,9 @@ class ApiController extends Controller {
     {
         if (Auth::check() == false) {
             return $this->respondUnauthorized();
-        }
+        } else {
+					$this->getUser();
+				}
     }
 
 
@@ -147,7 +149,6 @@ class ApiController extends Controller {
 
 	public function getUser()
 	{
-
         if (Auth::check() == false){
             return $this->respondUnauthorized();
         }
@@ -156,7 +157,7 @@ class ApiController extends Controller {
 
 	public function setUser($user)
 	{
-		$this->user = $user;
+		$this->user = Auth::user();
 		return $this;
 	}
 }

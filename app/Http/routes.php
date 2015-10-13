@@ -26,7 +26,7 @@ Route::group(['middleware' => 'auth.basic'], function () {
             Route::get('points/popular', 'PointController@popular');
             Route::resource('points', 'PointController',
                 array('only' => array('index', 'show', 'store')));
-            
+
 
             Route::resource('tags', 'TagController',
                 array('only' => array('index', 'store', 'show')));

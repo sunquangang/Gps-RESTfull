@@ -43,7 +43,7 @@ class PointController extends ApiController
 
     }
 
-    
+
 
 
     /**
@@ -59,7 +59,6 @@ class PointController extends ApiController
             } else {
                 $resp = Point::paginate($request->limit);
             }
-dump($resp);
             if (!$resp) {
                 return $this->respondNotFound();
             }
