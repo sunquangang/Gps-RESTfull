@@ -85,7 +85,8 @@ class PointController extends ApiController
                 'description' => 'required|min:3',
                 'latitude' => 'required|min:3',
                 'longitude' => 'required|min:3',
-                'tags' => 'required'
+                'tags' => 'required',
+                'country' => 'required',
             ]);
             if ($validator->fails()) {
                 return $this->respondWithError($validator->errors());
@@ -99,6 +100,7 @@ class PointController extends ApiController
             $stdObj->description = $request->get('description');
             $stdObj->longitude = $request->get('longitude');
             $stdObj->latitude = $request->get('latitude');
+            $stdObj->country = $request->get('country');
             $stdObj->created_by = \Auth::user()->id;
             $stdObj->updated_by = \Auth::user()->id;
             if (!$stdObj->save()) {

@@ -40,6 +40,7 @@ class PointTransformer extends TransformerAbstract
             'name' => $point->name,
             'description' => $point->description,
             'coordinats' => [
+                'country' => $point->country,
                 'longitude' => $point->longitude,
                 'latitude' => $point->latitude
             ],
