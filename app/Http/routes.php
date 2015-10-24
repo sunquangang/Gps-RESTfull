@@ -11,32 +11,32 @@
 |
 */
 
-Route::group(['middleware' => 'auth.basic'], function () {
+
     Route::get('/', function () {
-        return View::make('welcome');
+      return View::make('welcome');
     });
 
     Route::group(['middleware' => 'cors'], function () {
         Route::group(['prefix' => 'api'], function () {
 
-          Route::get('/', 'ApiController@getUser');
-          Route::get('find', 'PointController@findCountryByCoordinats');
+          Route::get('/', 'UserController@myAuthData');
+          Route::get('upload/{filename}', 'ImageController@show');
+          Route::get('points/popular', 'PointController@popular');
+          Route::get('points', 'PointController@index');
+          Route::get('points/{id}', 'PointController@show');
+          Route::get('tags', 'TagController@index');
+          Route::get('tags/{id}', 'TagController@show');
 
+          Route::group(['middleware' => 'auth.basic'], function () {
+            Route::post('points', 'PointController@store');
+            Route::put('points/{id}', 'PointController@update');
             Route::post('points/{id}/upload', 'ImageController@store');
-            Route::get('upload/{filename}', 'ImageController@show');
-            Route::get('points/popular', 'PointController@popular');
-            Route::resource('points', 'PointController',
-                array('only' => array('index', 'show', 'store')));
+            Route::post('tasg', 'TagController@store');
+          });
 
-
-            Route::resource('tags', 'TagController',
-                array('only' => array('index', 'store', 'show')));
-        });
-
-
+      });
     });
 
-});
 
 Route::controllers([
     'auth' => 'Auth\AuthController',

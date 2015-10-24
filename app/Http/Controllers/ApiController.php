@@ -16,21 +16,6 @@ class ApiController extends Controller {
 	 * @var int default 200
      */
 	protected $statusCode = 200;
-
-    /**
-     * ApiController constructor.
-     * @internal param $user
-     */
-    public function __construct()
-    {
-        if (Auth::check() == false) {
-            return $this->respondUnauthorized();
-        } else {
-					$this->getUser();
-				}
-    }
-
-
     /**
 	 * Responde with With error
 	 * Send response with message and set status code to 500
@@ -152,7 +137,7 @@ class ApiController extends Controller {
         if (Auth::check() == false){
             return $this->respondUnauthorized();
         }
-		return $this->user;
+		return $this->user = Auth::user();
 	}
 
 	public function setUser($user)

@@ -151,7 +151,7 @@ return [
          Tymon\JWTAuth\Providers\JWTAuthServiceProvider::class,
 
          Toin0u\Geotools\GeotoolsServiceProvider::class,
-
+         Zizaco\Entrust\EntrustServiceProvider::class,
     ],
 
     /*
@@ -207,7 +207,7 @@ return [
         'JWTFactory' => Tymon\JWTAuth\Facades\JWTFactory::class,
 
         'Geotools' => Toin0u\Geotools\Facade\Geotools::class,
-
+        'Entrust' => Zizaco\Entrust\EntrustFacade::class,
     ]
 
 ];

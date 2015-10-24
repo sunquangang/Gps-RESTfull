@@ -7,10 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
+use Zizaco\Entrust\Traits\EntrustUserTrait;
 
 class User extends Model implements AuthenticatableContract, CanResetPasswordContract
 {
-    use Authenticatable, CanResetPassword;
+    use Authenticatable, CanResetPassword, EntrustUserTrait;
 
     /**
      * The database table used by the model.
@@ -25,7 +26,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
      * @var array
      */
     protected $fillable = ['id', 'name', 'email', 'password', 'remember_token'];
-    
+
     /**
      * The attributes excluded from the model's JSON form.
      *
@@ -35,7 +36,12 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 
     public function point()
     {
-        return $this->hasMany('App\Points');
+        return $this->hasMany('App\Point');
+    }
+
+    public function role()
+    {
+        return $this->hasOne('App\Role', 'id');
     }
 
     public function user()

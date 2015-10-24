@@ -14,8 +14,6 @@ use App\Transformers\PointTransformer;
 use Fractal;
 use Illuminate\Http\Request;
 use Mockery\CountValidator\Exception;
-use League\Geotools\Coordinate\Ellipsoid;
-use Toin0u\Geotools\Facade\Geotools;
 
 /**
  * Class PointController
