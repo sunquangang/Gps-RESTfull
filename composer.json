@@ -10,8 +10,6 @@
         "cyvelnet/laravel5-fractal": "^1.2",
         "tymon/jwt-auth": "^0.5.4",
         "barryvdh/laravel-cors": "^0.7.1",
-        "barryvdh/laravel-debugbar": "^2.0",
-        "toin0u/geotools-laravel": "~1.0",
         "zizaco/entrust": "dev-laravel-5"
     },
     "require-dev": {

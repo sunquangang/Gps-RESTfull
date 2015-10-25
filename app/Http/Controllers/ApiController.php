@@ -9,7 +9,7 @@ use Auth;
  */
 class ApiController extends Controller {
 
-	protected $user;
+	public $user;
 
 	/**
 	 * Set default status code
@@ -23,6 +23,13 @@ class ApiController extends Controller {
 	 * @param $message
 	 * @return mixed
 	 */
+
+	public function __construct()
+	{
+		//dump(__FUNCTION__);
+		//$this->setUser();
+	}
+
 	public function respondWithError($message)
 	{
 		return $this->respond([
@@ -42,8 +49,6 @@ class ApiController extends Controller {
 	 */
 	public function respond($data, $headers = [])
 	{
-
-
 		return \Response::json($data, $this->getStatusCode(), $headers);
 	}
 
@@ -65,6 +70,7 @@ class ApiController extends Controller {
      */
 	public function setStatusCode($statusCode)
 	{
+		//dump($statusCode);
 		$this->statusCode = $statusCode;
 		return $this;
 	}
@@ -90,10 +96,10 @@ class ApiController extends Controller {
 	 * @param string $message
 	 * @return mixed
 	 */
-	public function respondBadRequest($message = 'Bad Request!')
-	{
-		return $this->setStatusCode(400)->respondWithError($message);
-	}
+	 public function respondBadRequest($message = 'Bad Request!')
+ 	{
+ 		return $this->setStatusCode(400)->respondWithError($message);
+ 	}
 
 	/**
 	 * Respond with Request Forbidden
@@ -131,18 +137,11 @@ class ApiController extends Controller {
 		return $this->setStatusCode(500)->respondWithError($message);
 	}
 
-
-	public function getUser()
+	public function respondRestricted($message = 'Restricted! Invalid credentials!')
 	{
-        if (Auth::check() == false){
-            return $this->respondUnauthorized();
-        }
-		return $this->user = Auth::user();
+		return $this->setStatusCode(403)->respondWithError($message);
 	}
 
-	public function setUser($user)
-	{
-		$this->user = Auth::user();
-		return $this;
-	}
+
+
 }

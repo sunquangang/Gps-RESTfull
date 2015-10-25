@@ -147,10 +147,8 @@ return [
         */
         Cyvelnet\Laravel5Fractal\Laravel5FractalServiceProvider::class,
          Barryvdh\Cors\ServiceProvider::class,
-         Barryvdh\Debugbar\ServiceProvider::class,
          Tymon\JWTAuth\Providers\JWTAuthServiceProvider::class,
 
-         Toin0u\Geotools\GeotoolsServiceProvider::class,
          Zizaco\Entrust\EntrustServiceProvider::class,
     ],
 
@@ -201,12 +199,10 @@ return [
         'View'      => Illuminate\Support\Facades\View::class,
 
         'Fractal'   => Cyvelnet\Laravel5Fractal\Facades\Fractal::class,
-        'Debugbar' => Barryvdh\Debugbar\Facade::class,
 
         'JWTAuth' => Tymon\JWTAuth\Facades\JWTAuth::class,
         'JWTFactory' => Tymon\JWTAuth\Facades\JWTFactory::class,
 
-        'Geotools' => Toin0u\Geotools\Facade\Geotools::class,
         'Entrust' => Zizaco\Entrust\EntrustFacade::class,
     ]
 

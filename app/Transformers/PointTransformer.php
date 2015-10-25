@@ -25,7 +25,7 @@ class PointTransformer extends TransformerAbstract
      *
      * @var  array
      */
-    protected $defaultIncludes = ['created_by', 'tags', 'images'];
+    protected $defaultIncludes = ['user', 'tags', 'images'];
 
     /**
      * Transform object into a generic array
@@ -53,7 +53,8 @@ class PointTransformer extends TransformerAbstract
                     'rel' => 'self',
                     'uri' => '/api/points/'.$point->id,
                 ],
-                'created_at' => $point->created_at
+                'created_at' => $point->created_at,
+                'updated_at' => $point->updated_at,
             ]
         ];
     }
@@ -83,11 +84,12 @@ class PointTransformer extends TransformerAbstract
      * @param $point
      * @return Item
      */
-    public function includeCreatedBy($point)
+    public function includeUser($point)
     {
         $user = $point->user;
         return $this->item($user, new UserTransformer);
     }
+
 
 
 

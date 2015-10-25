@@ -13,6 +13,7 @@ use App\PointTag;
 use App\Transformers\PointTransformer;
 use Fractal;
 use Illuminate\Http\Request;
+use App\Http\Requests\StorePointsRequest;
 use Mockery\CountValidator\Exception;
 
 /**
@@ -21,15 +22,56 @@ use Mockery\CountValidator\Exception;
  */
 class PointController extends ApiController
 {
+  public $user;
+
+
+  public function update($id)
+{
+    $point = Point::find($id);
+    $me = \Auth::user();
+//var_dump($this->user->role->name);
+    if (!$point->created_by == $me->id || !$this->user->role->name == "admin") {
+        return $this->respondRestricted('You did not create this point or you do not have the right role!');
+    }
+    $point->name = \Input::get('name', $point->name);
+    $point->description = \Input::get('description', $point->description);
+    $point->latitude = \Input::get('longitude', $point->longitude);
+    $point->longitude = \Input::get('latitude', $point->latitude);
+    $point->country = \Input::get('country', $point->country);
+    $point->updated_at = date('Y-m-d H:i:s');
+    $point->updated_by = \Auth::user()->id;
+
+    if (!$point->save()){
+      return $this->respondInternalError('Could not save point!');
+    }
+    //dump($point);
+    return Fractal::item($point, new PointTransformer())->responseJson(200);
+  }
+
     protected $defaultLimit = 10;
     protected $limit;
     protected $popular = false;
 
-    /**
-     * PointController constructor.
-     */
+
+
+   	//dump($user->role->name);
+   	/*if (!$user){
+   		return $this->respondUnauthorized();
+   	}
+   	return $user;*/
+   	public function setUser()
+   	{
+      if (!\Auth::user()) {
+        return false;
+      }
+   		$user = \App\User::find(\Auth::user()->id)->with('role')->firstOrFail();
+   		return $this->user = $user;
+   	}
+
+
     public function __construct(Request $request)
     {
+      $this->setUser();
         if (!$request->get('limit')) {
             $this->setLimit($this->defaultLimit);
         } else {

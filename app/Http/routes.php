@@ -31,7 +31,7 @@
             Route::post('points', 'PointController@store');
             Route::put('points/{id}', 'PointController@update');
             Route::post('points/{id}/upload', 'ImageController@store');
-            Route::post('tasg', 'TagController@store');
+            Route::post('tags', 'TagController@store');
           });
 
       });
