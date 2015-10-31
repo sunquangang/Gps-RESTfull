@@ -27,7 +27,16 @@ class ApiController extends Controller {
 	public function __construct()
 	{
 		//dump(__FUNCTION__);
-		//$this->setUser();
+		$this->user = $this->setUser();
+	}
+
+	public function setUser()
+	{
+			if (!\Auth::user()) {
+					return false;
+			}
+			$user = \App\User::find(\Auth::user()->id)->with('role')->firstOrFail();
+			return $this->user = $user;
 	}
 
 	public function respondWithError($message)
