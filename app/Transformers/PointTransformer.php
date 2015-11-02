@@ -39,6 +39,10 @@ class PointTransformer extends TransformerAbstract
             'id' => $point->id,
             'name' => $point->name,
             'description' => $point->description,
+            'likes' => [
+            'sum' => count($point->likes),
+                'users' => $point->likes
+            ],
             'coordinats' => [
                 'country' => $point->country,
                 'longitude' => $point->longitude,

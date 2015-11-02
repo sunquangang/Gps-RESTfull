@@ -25,7 +25,7 @@ use Mockery\CountValidator\Exception;
 class PointController extends ApiController
 {
     public $user;
-    protected $limit = 10;
+    protected $limit = 30;
     protected $popular = false;
 
     /**
@@ -144,6 +144,9 @@ class PointController extends ApiController
             if (!$resp) {
                 return $this->respondNotFound();
             }
+
+            $resp->likes = count($resp->likes);
+            
             $this->update_point_hits_table($id);
 
             return Fractal::item($resp, new PointTransformer())->responseJson(200);
