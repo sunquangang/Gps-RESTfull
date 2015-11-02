@@ -62,4 +62,9 @@ class Point extends Model
         return $this->hasMany('App\PointHit', 'point_id');
     }
 
+    public function likes()
+    {
+        return $this->hasMany('App\PointLike', 'point_id');
+    }
+
 }

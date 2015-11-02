@@ -33,9 +33,9 @@ class ApiController extends Controller {
 	public function setUser()
 	{
 			if (!\Auth::user()) {
-					return false;
+					return $this->respondUnauthorized('You are not logged in');
 			}
-			$user = \App\User::find(\Auth::user()->id)->with('role')->firstOrFail();
+			$user = \App\User::find(\Auth::user()->id)->with('role')->first();
 			return $this->user = $user;
 	}
 

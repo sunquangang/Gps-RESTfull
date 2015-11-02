@@ -26,10 +26,14 @@
           Route::get('points/{id}', 'PointController@show');
           Route::get('tags', 'TagController@index');
           Route::get('tags/{id}', 'TagController@show');
+          Route::get('points/{id}/like', 'PointLikeController@show');
+          Route::get('points/likes', 'PointLikeController@all');
 
           Route::group(['middleware' => 'auth.basic'], function () {
             Route::post('points', 'PointController@store');
             Route::put('points/{id}', 'PointController@update');
+            Route::post('points/{id}/like', 'PointLikeController@store');
+            Route::delete('points/{id}/like', 'PointLikeController@destroy');
             Route::post('points/{id}/upload', 'ImageController@store');
             Route::post('tags', 'TagController@store');
           });

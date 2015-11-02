@@ -90,6 +90,13 @@ class PointTransformer extends TransformerAbstract
         return $this->item($user, new UserTransformer);
     }
 
+    public function includeLikes($point)
+    {
+        $d = $point->likes;
+        
+        return $this->item($d, new PointLikeTransformer);
+    }
+
 
 
 
