@@ -35,13 +35,13 @@ class PointTransformer extends TransformerAbstract
      */
     public function transform($point)
     {
-        return [$point];
+        //return [$point];
         return [
             'id' => $point->id,
             'name' => $point->name,
             'description' => $point->description,
             'likes' => [
-            'sum' => count($point->likes),
+                'sum' => $point->likes_sum,
                 'users' => $point->likes
             ],
             'coordinats' => [
@@ -97,9 +97,7 @@ class PointTransformer extends TransformerAbstract
 
     public function includeLikes($point)
     {
-        $d = $point->likes;
-        
-        return $this->item($d, new PointLikeTransformer);
+        return $this->item($point->likes, new PointLikeTransformer);
     }
 
 

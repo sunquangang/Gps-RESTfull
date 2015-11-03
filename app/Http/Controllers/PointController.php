@@ -48,9 +48,19 @@ class PointController extends ApiController
     public function index(Request $request)
     {
         try {
-            $resp = Point::paginate($this->limit);
+            $resp = Point::with('likes')->get();
+            //dd($resp[0]->likes);
+            foreach ($resp as $key => $response) {
+                # code...
+                //$likes = new $resp;
+                    $likes = $response->likes;
+                    //var_dump('id:' . $response->id . ' -> Likes: ' . $likes->count());
+                    $resp[$key]->likes_sum = count($likes);
+            }
 
-
+            
+            
+            //dd($resp[0]);
             if (!$resp) {
                 return $this->respondNotFound();
             }
@@ -147,7 +157,8 @@ class PointController extends ApiController
                 return $this->respondNotFound();
             }
 
-            $resp->likes = count($resp->likes);
+            $resp->likes_sum = count($resp->likes);
+            //dd($resp->likes_sum);
             
             $this->update_point_hits_table($id);
 
