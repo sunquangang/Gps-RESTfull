@@ -22,7 +22,7 @@ class Point extends Model
      * Fillable fields
      * @var array
      */
-    protected $fillable = ['id', 'name','description','latitude', 'longitude', 'country', 'created_by', 'updated_by', 'likes'];
+    protected $fillable = ['id', 'name','description','latitude', 'longitude', 'country', 'created_by', 'updated_by', 'likes','hits'];
 
     /**
      * Hidden fields

@@ -35,6 +35,7 @@ class PointTransformer extends TransformerAbstract
      */
     public function transform($point)
     {
+        return [$point];
         return [
             'id' => $point->id,
             'name' => $point->name,

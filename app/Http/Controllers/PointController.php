@@ -49,6 +49,8 @@ class PointController extends ApiController
     {
         try {
             $resp = Point::paginate($this->limit);
+
+
             if (!$resp) {
                 return $this->respondNotFound();
             }
