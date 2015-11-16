@@ -36,6 +36,32 @@ class ImageController extends ApiController
         return Fractal::item($file, new \App\Transformers\ImageTransformer())->responseJson(200);
     }
 
+    public function store_base64(Request $request)
+    {
+        try {
+            $image = new Image();
+            $image->point_id = $request->id;
+            $image->filename = $this->generate_random_string();
+            $image->mime_type = $request->filetype;
+            $image->base_64 = $request->base64;
+            $image->created_by = Auth::user()->id;
+            $image->updated_by = Auth::user()->id;
+
+            if (!$image->save()) {
+                // If creation fails
+                // Return error response
+                return $this->respondInternalError();
+            }
+            // Select latest row from DB
+            $resp = $image->orderBy('id', 'DESC')->first();
+            // return with Fractal
+            return Fractal::item($resp, new \App\Transformers\ImageTransformer())->responseJson(200);
+
+            } catch (Exception $e) {
+            return $this->respondInternalError();
+        }
+    }
+
     /**
      * Store a newly created resource in storage.
      *

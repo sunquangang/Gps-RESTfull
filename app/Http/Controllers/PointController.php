@@ -109,6 +109,7 @@ class PointController extends ApiController
                 'longitude' => 'required|min:3',
                 'tags' => 'required',
                 'country' => 'required',
+                'files' => 'required'
             ]);
             if ($validator->fails()) {
                 return $this->respondWithError($validator->errors());
@@ -136,9 +137,19 @@ class PointController extends ApiController
                 }
             }
 
+            $this->addFiles($request->get('files'));
+
             return Fractal::item($point, new PointTransformer())->responseJson(200);
         } catch (Exception $e) {
             return $this->respondInternalError();
+        }
+    }
+
+    private function addFiles($files)
+    {
+        dd($files);
+        foreach ($files as $key => $file) {
+            dump($file);
         }
     }
 

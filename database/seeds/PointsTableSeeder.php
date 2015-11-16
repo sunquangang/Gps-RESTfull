@@ -9,7 +9,7 @@ class PointsTableSeeder extends DatabaseSeeder
       */
      public function run()
      {
-         $loop = 100;
+         $loop = 50;
          $faker = $this->getFaker();
 
         $countries = [];

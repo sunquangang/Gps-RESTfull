@@ -34,7 +34,7 @@
             Route::put('points/{id}', 'PointController@update');
             Route::post('points/{id}/like', 'PointLikeController@store');
             Route::delete('points/{id}/like', 'PointLikeController@destroy');
-            Route::post('points/{id}/upload', 'ImageController@store');
+            Route::post('points/{id}/upload', 'ImageController@store_base64');
             Route::post('tags', 'TagController@store');
           });
 
