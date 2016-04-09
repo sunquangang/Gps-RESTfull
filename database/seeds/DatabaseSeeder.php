@@ -27,6 +27,8 @@ class DatabaseSeeder extends Seeder
         $this->call('PointsTableSeeder');
         $this->call('TagTableSeeder');
         $this->call('PointTagsTableSeeder');
+        $this->call('PointLikeTableSeeder');
+        $this->call('PointHitTableSeeder');
         Model::reguard();
     }
 

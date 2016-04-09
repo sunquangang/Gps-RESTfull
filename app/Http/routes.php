@@ -39,7 +39,11 @@
           });
 
       });
+
+        Route::post('login', 'AuthenticateController@authenticate');
     });
+
+
 
 
 Route::controllers([

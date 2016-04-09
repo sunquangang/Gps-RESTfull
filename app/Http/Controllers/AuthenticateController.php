@@ -22,11 +22,7 @@ class AuthenticateController extends Controller
    }
 
 
-  public function index(){
-  $users = \App\Point::all();
 
-  return \Response::json($users);
-  }
 
   public function authenticate(Request $request)
     {

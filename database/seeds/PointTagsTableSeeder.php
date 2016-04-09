@@ -6,7 +6,7 @@ class PointTagsTableSeeder extends DatabaseSeeder
 
   protected $minTags = 1;
   protected $maxTags = 5;
-  protected $records = 15;
+  protected $records = 35;
     /**
      * Run the database seeds.
      *
