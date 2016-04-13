@@ -6,7 +6,7 @@ use App\PointLike;
 class PointLikeTableSeeder extends Seeder
 {
     
-	protected $records = 300;
+	protected $records = 30;
     /**
      * Run the database seeds.
      *

@@ -12,7 +12,7 @@ class TagTableSeeder extends DatabaseSeeder
      public function run()
      {
 
-       $loop = 15;
+       $loop = 35;
        $faker = $this->getFaker();
 
 

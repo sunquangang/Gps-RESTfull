@@ -12,22 +12,22 @@
 */
 
 
-Route::get('/', function () {
-    return View::make('welcome');
-});
+    Route::get('/', function () {
+      return View::make('welcome');
+    });
 
-Route::group(['middleware' => 'cors'], function () {
-    Route::group(['prefix' => 'api'], function () {
+    Route::group(['middleware' => 'cors'], function () {
+        Route::group(['prefix' => 'api'], function () {
 
-        Route::get('/', 'UserController@myAuthData');
-        Route::get('upload/{filename}', 'ImageController@show');
-        Route::get('points/popular', 'PointController@popular');
-        Route::get('points', 'PointController@index');
-        Route::get('points/{id}', 'PointController@show');
-        Route::get('tags', 'TagController@index');
-        Route::get('tags/{id}', 'TagController@show');
-        Route::get('points/{id}/like', 'PointLikeController@show');
-        Route::get('points/likes', 'PointLikeController@all');
+          Route::get('/', 'UserController@myAuthData');
+          Route::get('upload/{filename}', 'ImageController@show');
+          Route::get('points/popular', 'PointController@popular');
+          Route::get('points', 'PointController@index');
+          Route::get('points/{id}', 'PointController@show');
+          Route::get('tags', 'TagController@index');
+          Route::get('tags/{id}', 'TagController@show');
+          Route::get('points/{id}/like', 'PointLikeController@show');
+          Route::get('points/likes', 'PointLikeController@all');
 
         Route::get('users/{id}', 'UserController@show');
 
@@ -38,10 +38,10 @@ Route::group(['middleware' => 'cors'], function () {
             Route::delete('points/{id}/like', 'PointLikeController@destroy');
             Route::post('points/{id}/upload', 'ImageController@store_base64');
             Route::post('tags', 'TagController@store');
-        });
+          });
 
+      });
     });
-});
 
 
 Route::controllers([

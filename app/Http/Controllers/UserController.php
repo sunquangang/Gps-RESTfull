@@ -21,9 +21,11 @@ class UserController extends ApiController
      */
     public function myAuthData()
     {
-      //var_dump(Auth::user());
+        if (!Auth::user()){
+            return $this->respondUnauthorized();
+        }
+
       $user = User::find(Auth::user()->id)->with('role')->firstOrFail();
-      //dump($user->role->name);
       if (!$user){
         return $this->respondUnauthorized();
       }

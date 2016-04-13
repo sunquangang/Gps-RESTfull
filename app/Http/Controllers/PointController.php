@@ -41,7 +41,7 @@ class PointController extends ApiController
     /**
      * Display a listing of the resource.
      *
-     * @param INT $limit Default is set to 15, You may with to overwide this.
+     * @param INT $limit Default limit. You may override this.
      *
      * @return Response
      */
