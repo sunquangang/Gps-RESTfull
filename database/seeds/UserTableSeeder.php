@@ -12,10 +12,13 @@ class UserTableSeeder extends DatabaseSeeder
         $faker = $this->getFaker();
 
         $admin = [
-            'name' => 'admin',
+            'username' => 'admin',
             'email' => 'arelstone@gmail.com',
             'password' => Hash::make('password'),
             'remember_token' => md5(uniqid(mt_rand(), true)),
+            'firstname' => 'Carsten',
+            'lastname' => 'Daurehøj',
+            'country' => 'Denmark'
         ];
 //        dd($admin);
       // create admin User
@@ -25,10 +28,13 @@ class UserTableSeeder extends DatabaseSeeder
             $name = $faker->userName;
             $email = $faker->email;
             $data = [
-              'name' => $name,
+              'username' => $name,
               'email' => $email,
               'password' => Hash::make('password'),
               'remember_token' => md5(uniqid(mt_rand(), true)),
+                'firstname' => $faker->firstName,
+                'lastname' => $faker->lastName,
+                'country' => $faker->country
             ];
 
             \App\User::create($data);
